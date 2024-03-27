@@ -1,6 +1,5 @@
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-
 import { Link } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -27,13 +26,7 @@ const items: MenuItem[] = [
   getItem(<Link to={'/brands'}>Brand list</Link>, '3'),
 ];
 
-// table
-
-
-
 const Home: React.FC = () => {
-    
-    
   return (
     <div style={{display: 'flex', maxWidth: '100vw'}}>
         <div style={{ width: 256, height: '100vh', background: '#001529' }}>

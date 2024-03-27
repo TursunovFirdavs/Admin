@@ -17,7 +17,7 @@ const CreateCategory: React.FC = () => {
         fomrData.append('title',values.title);
         fomrData.append('image',values.image.file)
         mutate(fomrData, {
-            onSuccess: res => {
+            onSuccess: () => {
                 message.success('success')
                 navigate('/')
             },

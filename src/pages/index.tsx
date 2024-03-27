@@ -3,6 +3,7 @@ import Login from "./login/Login"
 import Categories from "./categories/Categories"
 import CreateCategory from "./categories/Create-category"
 import EditCategory from "./categories/Edit-category"
+import SubCategory from "./sub-category/Sub-category"
 
 const index = () => {
   return (
@@ -11,6 +12,7 @@ const index = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/create-category" element={<CreateCategory/>} />
         <Route path="/edit-category" element={<EditCategory/>} />
+        <Route path="/sub-category" element={<SubCategory/>} />
     </Routes>
   )
 }
