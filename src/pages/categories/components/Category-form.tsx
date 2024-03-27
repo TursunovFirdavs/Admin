@@ -1,53 +1,33 @@
-import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Upload, message } from 'antd';
-import type { FormProps, UploadFile, UploadProps } from 'antd';
-import { usePostCategory } from '../../service/mutation/usePostCategory';
+import { PlusOutlined } from "@ant-design/icons"
+import { Button, Form, Input, Upload, UploadFile, UploadProps } from "antd"
+import { FC, useState } from "react"
 
-interface FieldType {
+interface Props {
+    onFinish: (values: FieldType) => void
+}
+
+export interface FieldType {
     title:string;
     image:{
         file:File;
     }
 }
 
-
-const CreateCategory: React.FC = () => {
+const CategoryForm: FC<Props> = ({ onFinish }) => {
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
-    const { mutate } = usePostCategory()
-
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
         setFileList(newFileList);
 
-
-    const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-        const fomrData = new FormData();
-        fomrData.append('title',values.title);
-        fomrData.append('image',values.image.file)
-        mutate(fomrData, {
-            onSuccess: res => {
-                message.success('success')
-            },
-            onError: err => console.log(err)
-            
-            
-        })
-    };
-
-
-
-
-    return (
-        <div>
+  return (
+    <div>
             <Form
                 name="basic"
                 layout='vertical'
                 initialValues={{ }}
                 onFinish={onFinish}
                 style={{maxWidth:"600px"}}
-                autoComplete="off"
             >
                 <Form.Item
                     label="Username"
@@ -82,7 +62,7 @@ const CreateCategory: React.FC = () => {
             </Form>
           
         </div>
-    )
+  )
 }
 
-export default CreateCategory
+export default CategoryForm

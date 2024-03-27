@@ -1,12 +1,12 @@
 import { Table } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from '../../service/query/useGetCategory';
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useDelete } from '../../service/mutation/useDelete';
+import { useDelete } from './service/mutation/useDelete';
 import { useNavigate } from 'react-router-dom';
 
-const Categories = () => {
+const Categories: FC = () => {
     const navigate = useNavigate()
 
     interface DataType {
@@ -51,7 +51,7 @@ const Categories = () => {
             image: <img style={{ width: '70px', height: '70px', objectFit: 'cover' }} src={item.image} alt="" />,
             title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
-                <Button size='large' type="primary" ><EditOutlined />Edit</Button>
+                <Button onClick={() => navigate('/edit-category')} size='large' type="primary" ><EditOutlined />Edit</Button>
                 <Button onClick={() => deleteMutation(`/category/${item.id}/`, { onSuccess: res => console.log(res) })} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
@@ -60,10 +60,10 @@ const Categories = () => {
         ;
     return (
         <div >
+            <Button style={{marginBottom: '40px'}} onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
             <div style={{ height: '80vh', overflow: 'auto'}}>
                 <Table columns={columns} dataSource={data} />
             </div>
-            <Button style={{marginTop: '40px'}} onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
         </div>
     )
 }
