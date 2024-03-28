@@ -1,9 +1,14 @@
 import { PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Upload, UploadFile, UploadProps } from "antd"
+import { Button, Form, Image, Input, Upload, UploadFile, UploadProps } from "antd"
 import { FC, useState } from "react"
 
 interface Props {
     onFinish: (values: FieldType) => void
+    loading: boolean,
+    initialValues?: {
+        title: string,
+        image: string
+    }
 }
 
 export interface FieldType {
@@ -13,8 +18,9 @@ export interface FieldType {
     }
 }
 
-const CategoryForm: FC<Props> = ({ onFinish }) => {
-
+const CategoryForm: FC<Props> = ({ onFinish,  initialValues }) => {
+    console.log(initialValues);
+    
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
@@ -25,7 +31,7 @@ const CategoryForm: FC<Props> = ({ onFinish }) => {
             <Form
                 name="basic"
                 layout='vertical'
-                initialValues={{ }}
+                initialValues={initialValues}
                 onFinish={onFinish}
                 style={{maxWidth:"600px"}}
             >
@@ -36,6 +42,12 @@ const CategoryForm: FC<Props> = ({ onFinish }) => {
                 >
                     <Input />
                 </Form.Item>
+
+                {initialValues && 
+                        <div style={{width: '200px', marginBottom: '10px'}}>
+                            <Image src={initialValues.image} />
+                        </div>
+                    }
 
                 <Form.Item
                     label="Image"
@@ -50,7 +62,7 @@ const CategoryForm: FC<Props> = ({ onFinish }) => {
                     >
                         {fileList.length >= 8 ? null : <button style={{ border: 0, background: 'none' }} type="button">
                             <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Image</div>
+                            <div style={{ marginTop: 8 }}>{initialValues ? 'Change image' : 'Image'}</div>
                         </button>}
                     </Upload.Dragger>
                 </Form.Item>

@@ -11,7 +11,7 @@ const index = () => {
         <Route path="/" element={<Categories/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/create-category" element={<CreateCategory/>} />
-        <Route path="/edit-category" element={<EditCategory/>} />
+        <Route path="/edit-category/:id" element={<EditCategory/>} />
         <Route path="/sub-category" element={<SubCategory/>} />
     </Routes>
   )

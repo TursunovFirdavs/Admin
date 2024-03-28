@@ -51,7 +51,7 @@ const Categories: FC = () => {
             image: <img style={{ width: '70px', height: '70px', objectFit: 'cover' }} src={item.image} alt="" />,
             title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
-                <Button onClick={() => navigate('/edit-category')} size='large' type="primary" ><EditOutlined />Edit</Button>
+                <Button onClick={() => navigate(`/edit-category/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
                 <Button onClick={() => deleteMutation(`/category/${item.id}/`, { onSuccess: res => console.log(res) })} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
