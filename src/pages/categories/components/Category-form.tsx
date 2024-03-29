@@ -12,28 +12,28 @@ interface Props {
 }
 
 export interface FieldType {
-    title:string;
-    image:{
-        file:File;
+    title: string;
+    image: {
+        file: File;
     }
 }
 
-const CategoryForm: FC<Props> = ({ onFinish,  initialValues }) => {
+const CategoryForm: FC<Props> = ({ onFinish, initialValues }) => {
     console.log(initialValues);
-    
+
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
         setFileList(newFileList);
 
-  return (
-    <div>
+    return (
+        <div>
             <Form
                 name="basic"
                 layout='vertical'
                 initialValues={initialValues}
                 onFinish={onFinish}
-                style={{maxWidth:"600px"}}
+                style={{ maxWidth: "600px" }}
             >
                 <Form.Item
                     label="Username"
@@ -43,12 +43,6 @@ const CategoryForm: FC<Props> = ({ onFinish,  initialValues }) => {
                     <Input />
                 </Form.Item>
 
-                {initialValues && 
-                        <div style={{width: '200px', marginBottom: '10px'}}>
-                            <Image src={initialValues.image} />
-                        </div>
-                    }
-
                 <Form.Item
                     label="Image"
                     name="image"
@@ -56,6 +50,7 @@ const CategoryForm: FC<Props> = ({ onFinish,  initialValues }) => {
                 >
                     <Upload.Dragger
                         beforeUpload={() => false}
+                        listType="picture-card"
                         maxCount={1}
                         fileList={fileList}
                         onChange={handleChange}
@@ -66,15 +61,22 @@ const CategoryForm: FC<Props> = ({ onFinish,  initialValues }) => {
                         </button>}
                     </Upload.Dragger>
                 </Form.Item>
+
+                {initialValues && !fileList.length &&
+                    <div style={{ width: '200px', marginBottom: '30px' }}>
+                        <Image src={initialValues.image} />
+                    </div>
+                }
+
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
                 </Form.Item>
             </Form>
-          
+
         </div>
-  )
+    )
 }
 
 export default CategoryForm
