@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
-export const useEditCategory = (id: string) => {
+export const useEditSub = (id: string) => {
     return useMutation({
-        mutationKey: ['edit-category', id],
+        mutationKey: ['edit-sub', id],
         mutationFn: (data: FormData) => request
             .put(`/category/${id}/`, data, {
                 headers:{

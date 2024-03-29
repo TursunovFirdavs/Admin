@@ -3,18 +3,18 @@ import CategoryForm from './components/Category-form'
 import { useEditCategory } from './service/mutation/useEditCategory'
 import { useGetSingleCategory } from './service/query/useGetSingleCategory'
 import { FieldType } from './components/Category-form';
-import { message } from 'antd';
+import { message ,Spin} from 'antd';
 
 
 
 const EditCategory: React.FC = () => {
 
   const { id } = useParams()
-  const { data } = useGetSingleCategory(id)
-  const { mutate } = useEditCategory(id)
+  const { data ,isLoading} = useGetSingleCategory(id as string)
+  const { mutate } = useEditCategory(id as string)
   const navigate = useNavigate()
   
-  console.log(data);
+  // console.log(data);
   
 
   const submit = (values: FieldType) => {
@@ -36,7 +36,8 @@ const EditCategory: React.FC = () => {
 
   return (
     <div>
-      <CategoryForm initialValues={data} loading onFinish={submit} />
+      {isLoading ? <Spin/> :       <CategoryForm initialValues={data} loading={isLoading} onFinish={submit} />
+}
     </div>
   )
 }

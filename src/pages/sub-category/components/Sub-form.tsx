@@ -1,10 +1,14 @@
 import { PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select, Upload, UploadFile, UploadProps } from "antd"
+import { Button, Form, Image, Input, Select, Upload, UploadFile, UploadProps } from "antd"
 import { FC, useState } from "react"
 import { useGetCategory } from "../../categories/service/query/useGetCategory"
 
 interface Props {
     onFinish: (values: FieldType) => void
+    initialValues?: {
+        title: string,
+        image: string
+    }
 }
 
 export interface FieldType {
@@ -15,7 +19,7 @@ export interface FieldType {
     }
 }
 
-const SubForm: FC<Props> = ({ onFinish }) => {
+const SubForm: FC<Props> = ({ onFinish, initialValues }) => {
 
     const { data: categories } = useGetCategory()
 
@@ -24,18 +28,18 @@ const SubForm: FC<Props> = ({ onFinish }) => {
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
         setFileList(newFileList);
 
-    const options =  
+    const options =
         categories?.results?.map((item: any) => (
             { label: <span>{item.title}</span>, value: item.id }
-        )) 
-    
+        ))
+
 
     return (
         <div>
             <Form
                 name="basic"
                 layout='vertical'
-                initialValues={{}}
+                initialValues={initialValues}
                 onFinish={onFinish}
                 style={{ maxWidth: "600px" }}
             >
@@ -56,6 +60,7 @@ const SubForm: FC<Props> = ({ onFinish }) => {
                         beforeUpload={() => false}
                         maxCount={1}
                         fileList={fileList}
+                        listType="picture-card"
                         onChange={handleChange}
                     >
                         {fileList.length >= 8 ? null : <button style={{ border: 0, background: 'none' }} type="button">
@@ -64,12 +69,21 @@ const SubForm: FC<Props> = ({ onFinish }) => {
                         </button>}
                     </Upload.Dragger>
                 </Form.Item>
-                <Form.Item
-                    name="parent"
-                    rules={[{ required: true, message: 'Please input your category!' }]}
-                >
-                <Select  defaultValue="choose category" style={{ width: '100%' }} options={options} />
-                </Form.Item>
+                {!initialValues &&
+                    <Form.Item
+                        name="parent"
+                        rules={[{ required: true, message: 'Please input your category!' }]}
+                    >
+                        <Select defaultValue="choose category" style={{ width: '100%' }} options={options} />
+                    </Form.Item>
+                }
+
+                {initialValues && !fileList.length &&
+                    <div style={{ width: '200px', marginBottom: '30px' }}>
+                        <Image src={initialValues.image} />
+                    </div>
+                }
+
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
                         Submit
