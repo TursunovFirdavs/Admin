@@ -1,33 +1,43 @@
 import { PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Upload, UploadFile, UploadProps } from "antd"
+import { Button, Form, Input, Select, Upload, UploadFile, UploadProps } from "antd"
 import { FC, useState } from "react"
+import { useGetCategory } from "../../categories/service/query/useGetCategory"
 
 interface Props {
     onFinish: (values: FieldType) => void
 }
 
 export interface FieldType {
-    title:string;
-    image:{
-        file:File;
+    title: string;
+    parent: string
+    image: {
+        file: File;
     }
 }
 
 const SubForm: FC<Props> = ({ onFinish }) => {
+
+    const { data: categories } = useGetCategory()
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
         setFileList(newFileList);
 
-  return (
-    <div>
+    const options =  
+        categories?.results?.map((item: any) => (
+            { label: <span>{item.title}</span>, value: item.id }
+        )) 
+    
+
+    return (
+        <div>
             <Form
                 name="basic"
                 layout='vertical'
-                initialValues={{ }}
+                initialValues={{}}
                 onFinish={onFinish}
-                style={{maxWidth:"600px"}}
+                style={{ maxWidth: "600px" }}
             >
                 <Form.Item
                     label="Username"
@@ -54,15 +64,21 @@ const SubForm: FC<Props> = ({ onFinish }) => {
                         </button>}
                     </Upload.Dragger>
                 </Form.Item>
+                <Form.Item
+                    name="parent"
+                    rules={[{ required: true, message: 'Please input your category!' }]}
+                >
+                <Select  defaultValue="choose category" style={{ width: '100%' }} options={options} />
+                </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
                 </Form.Item>
             </Form>
-          
+
         </div>
-  )
+    )
 }
 
 export default SubForm

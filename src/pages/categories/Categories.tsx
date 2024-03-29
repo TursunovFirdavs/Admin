@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import { TableProps, Button } from 'antd';
-import { useGetCategory } from '../../service/query/useGetCategory';
+import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDelete } from './service/mutation/useDelete';
