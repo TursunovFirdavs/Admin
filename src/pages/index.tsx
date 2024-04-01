@@ -8,6 +8,7 @@ import CreateSub from "./sub-category/Create-sub"
 import EditSub from "./sub-category/Edit-sub"
 import Brands from "./brands/Brands"
 import EditBrands from "./brands/Edit-brands"
+import CreateBrand from "./brands/Create-brands"
 
 const index = () => {
   return (
@@ -20,7 +21,8 @@ const index = () => {
         <Route path="/create-sub" element={<CreateSub/>} />
         <Route path="/edit-sub/:id" element={<EditSub/>} />
         <Route path="/brands" element={<Brands/>} />
-        <Route path="/edit-brand" element={<EditBrands/>} />
+        <Route path="/edit-brand/:id" element={<EditBrands/>} />
+        <Route path="/create-brand" element={<CreateBrand/>} />
     </Routes>
   )
 }
