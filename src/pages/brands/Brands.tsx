@@ -3,11 +3,11 @@ import { useGetBrands } from "./service/query/useGetBrands"
 import { ReactElement } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-// import { useDeleteSub } from "./service/mutation/useDeleteSub";
+import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
 
 const Brands = () => {
   const { data: brands } = useGetBrands()
-//   const { mutate } = useDeleteSub()
+  const { mutate } = useDeleteBrand()
   
   console.log(brands);
 
@@ -57,7 +57,7 @@ const Brands = () => {
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate(`/edit-sub/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-        <Button size='large' type="primary" danger>
+        <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
     }
