@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useGetSub } from "./service/query/useGetSub"
+import { useGetBrands } from "./service/query/useGetBrands"
 import { ReactElement } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useDeleteSub } from "./service/mutation/useDeleteSub";
+// import { useDeleteSub } from "./service/mutation/useDeleteSub";
 
-const SubCategory = () => {
-  const { data: subCategory } = useGetSub()
-  const { mutate } = useDeleteSub()
+const Brands = () => {
+  const { data: brands } = useGetBrands()
+//   const { mutate } = useDeleteSub()
   
-  console.log(subCategory);
+  console.log(brands);
 
   const navigate = useNavigate()
 
@@ -40,11 +40,6 @@ const SubCategory = () => {
       key: 'title',
     },
     {
-      title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
-    },
-    {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
@@ -52,7 +47,7 @@ const SubCategory = () => {
   ];
 
 
-  const data: DataType[] = subCategory?.results?.map((item: any) => (
+  const data: DataType[] = brands?.results?.map((item: any) => (
     {
       id: item.id,
       image: <div style={{ width: '70px', height: '60px',  }} >
@@ -62,7 +57,7 @@ const SubCategory = () => {
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate(`/edit-sub/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-        <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
+        <Button size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
     }
@@ -78,4 +73,4 @@ const SubCategory = () => {
   )
 }
 
-export default SubCategory
+export default Brands
