@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Image, Table } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement } from 'react';
@@ -48,7 +48,9 @@ const Categories: FC = () => {
     const data: DataType[] = categoryList?.results?.map((item: any) => (
         {
             id: item.id,
-            image: <img style={{ width: '70px', height: '70px', objectFit: 'cover' }} src={item.image} alt="" />,
+            image: <div style={{ width: '70px', height: '60px', }} >
+                <Image src={item.image} alt="" />
+            </div>,
             title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
                 <Button onClick={() => navigate(`/edit-category/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
@@ -60,8 +62,8 @@ const Categories: FC = () => {
         ;
     return (
         <div >
-            <Button style={{marginBottom: '40px'}} onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
-            <div style={{ height: '80vh', overflow: 'auto'}}>
+            <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
+            <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
             </div>
         </div>
