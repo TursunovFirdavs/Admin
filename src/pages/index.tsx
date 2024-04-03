@@ -12,6 +12,7 @@ import CreateBrand from "./brands/Create-brands"
 import Products from "./products/Products"
 import CreateProduct from "./products/Create-product"
 import EditProduct from "./products/Edit-product"
+import Attributes from "./attribute/Attributes"
 
 const index = () => {
   return (
@@ -29,6 +30,7 @@ const index = () => {
         <Route path="/products" element={<Products/>} />
         <Route path="/create-product" element={<CreateProduct/>} />
         <Route path="/edit-product/:id" element={<EditProduct/>} />
+        <Route path="/attribute" element={<Attributes/>} />
     </Routes>
   )
 }
