@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useGetAttributes } from "./service/query/useGetAttributes"
 import { ReactElement } from "react";
-import { Button, Image, Table, TableProps } from "antd";
+import { Button, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 // import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
 
@@ -62,7 +62,7 @@ const Attributes = () => {
 
   return (
     <div >
-      <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-brand')} type='primary'>Create Brand</Button>
+      <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />
       </div>
