@@ -3,11 +3,11 @@ import { useGetAttributes } from "./service/query/useGetAttributes"
 import { ReactElement } from "react";
 import { Button, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-// import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
+import { useDeleteAttribut } from "./service/mutation/useDeleteAttribute";
 
 const Attributes = () => {
   const { data: brands } = useGetAttributes()
-//   const { mutate } = useDeleteBrand()
+  const { mutate } = useDeleteAttribut()
   
   console.log(brands);
 
@@ -54,7 +54,7 @@ const Attributes = () => {
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.category_title[0]?.title.length > 12 ? item.category_title[0]?.title.slice(0, 12).toUpperCase() + '...' : item.category_title[0]?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate(`/edit-brand/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-        <Button size='large' type="primary" danger>
+        <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
     }
