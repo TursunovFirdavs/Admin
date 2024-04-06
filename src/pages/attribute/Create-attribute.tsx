@@ -16,8 +16,14 @@ const CreateAttribute: React.FC = () => {
   
 
   const submit = (values: any) => {
-    console.log({...values, category: selectedCat})
-    mutate({...values, category: selectedCat}, {
+    const correctValue: string[] = []
+    values?.values.map((item: any) => {
+      correctValue.push(item.value)
+    })
+    console.log(correctValue);
+    
+    console.log({...values, values:correctValue, category: selectedCat})
+    mutate({...values, values:correctValue, category: selectedCat}, {
       onSuccess: (res) => {
         console.log(res)
         navigate('/attribute')

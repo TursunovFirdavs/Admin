@@ -4,10 +4,13 @@ import { Button, Form, Input, Space } from 'antd';
 
 interface Props {
   onfinish: (values: any) => void
+  initialValue?: any
 }
 
-const AttributeForm: React.FC<Props> = ({ onfinish }) => {
+const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   const [form] = Form.useForm();
+  // console.log(initialValue);
+  
 
   return (
     <Form
@@ -18,7 +21,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish }) => {
       name="dynamic_form_complex"
       style={{ maxWidth: 600 }}
       autoComplete="off"
-      initialValues={{ items: [{}] }}
+      initialValues={initialValue}
     >
       <Form.Item name={"title"}>
         <Input placeholder='title' />
