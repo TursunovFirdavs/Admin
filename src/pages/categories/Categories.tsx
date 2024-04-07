@@ -1,10 +1,11 @@
-import { Image, Table } from 'antd';
+import { Image, Input, Table } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDelete } from './service/mutation/useDelete';
 import { useNavigate } from 'react-router-dom';
+import SearchForm from '../../components/SearchForm';
 
 const Categories: FC = () => {
     const navigate = useNavigate()
@@ -59,10 +60,13 @@ const Categories: FC = () => {
             </div>,
         }
     ))
-        ;
+    
     return (
         <div >
-            <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
+            <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px'}}>
+                <Button onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
+                <SearchForm />
+            </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
             </div>

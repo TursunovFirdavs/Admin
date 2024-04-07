@@ -18,6 +18,7 @@ const EditCategory: React.FC = () => {
   
 
   const submit = (values: FieldType) => {
+    console.log(values);
     const formData = new FormData();
     formData.append('title',values.title);
     formData.append('image',values.image.file)

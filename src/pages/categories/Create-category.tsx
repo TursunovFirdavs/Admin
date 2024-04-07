@@ -12,6 +12,7 @@ const CreateCategory: React.FC = () => {
     const navigate = useNavigate()
 
     const submit = (values: FieldType) => {
+        console.log(values)
         const fomrData = new FormData();
         fomrData.append('title',values.title);
         fomrData.append('image',values.image.file)

@@ -16,7 +16,7 @@ const Login: React.FC = () => {
         mutate(values, {
             onSuccess: res => {
                 console.log(res.token)
-                Cookies.set('token', res.token)
+                Cookies.set('token', res.token, {expires: 7})
             }
             
         })

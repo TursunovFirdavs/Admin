@@ -5,7 +5,7 @@ export const useEditAttribute = () => {
     return useMutation({
         mutationKey: ['edit-attribute'],
         mutationFn: (data: any) => request
-            .put(`/api/category_edit/`, {attributes: [data]},)
+            .patch(`/api/category_edit/`, data)
             .then(res => res.data)
     })
 }

@@ -43,11 +43,11 @@ const EditSub = () => {
     const edited = values?.values.map((value: any) => {
       return {
         value: value.value,
-        id: value.id || null
+        value_id: value.id || null
       }
     })
-    console.log({...values, attribute_id: singleAtt.id, values: edited});
-    attributeMutate({...values, attribute_id: singleAtt.id, values: edited}, {
+    console.log({attributes: [{...values, attribute_id: singleAtt.id, values: edited}], category_id: singleAtt.category[0]});
+    attributeMutate({attributes: [{...values, attribute_id: singleAtt.id, values: edited}], category_id: singleAtt.category[0]}, {
       onSuccess: (res) => {
         console.log(res);
         message.success('success')
