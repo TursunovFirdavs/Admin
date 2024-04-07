@@ -3,14 +3,27 @@ import { useGetSingleSub } from "./service/query/useGetSingleSub"
 import SubForm from "./components/Sub-form"
 import { useEditSub } from "./service/mutation/useEditSub"
 import { FieldType } from "../categories/components/Category-form"
+import { Tabs, message } from "antd"
+import TabPane from "antd/es/tabs/TabPane"
+import AttributeForm from "../attribute/components/Attribute-form"
+import { useState } from "react"
+import { useGetSingleAttribute } from "../attribute/service/query/useGetSingleAtt"
+import { useEditAttribute } from "./service/mutation/useEditAttribute"
 
 const EditSub = () => {
-
+  const [tab, setTab] = useState('1')
   const { id } = useParams()
   const { data } = useGetSingleSub(id as string)
+  const { data: singleAtt } = useGetSingleAttribute(data?.attributes[0]?.id) 
   const { mutate } = useEditSub(id as string)
+  const { mutate: attributeMutate } = useEditAttribute()
   const navigate = useNavigate()
+  console.log(singleAtt);
   console.log(data);
+
+  const handleChange = (key:any) => {
+    setTab(key);
+  };
 
   const submit = (values: FieldType) => {
       const formData = new FormData()
@@ -18,17 +31,46 @@ const EditSub = () => {
       formData.append('image', values.image.file)
       mutate(formData, {
         onSuccess: () => {
-          navigate('/sub-category')
+          setTab('2')
         },
         onError: err => console.log(err)
         
       })
   }
+
+  const editAttribute = (values:any) => {
+    console.log(values);
+    const edited = values?.values.map((value: any) => {
+      return {
+        value: value.value,
+        id: value.id || null
+      }
+    })
+    console.log({...values, attribute_id: singleAtt.id, values: edited});
+    attributeMutate({...values, attribute_id: singleAtt.id, values: edited}, {
+      onSuccess: (res) => {
+        console.log(res);
+        message.success('success')
+      },
+      onError: err => console.log(err)
+      
+    })
+  }
   
 
   return (
     <div>
-      <SubForm onFinish={submit} initialValues={data} />
+      <Tabs activeKey={tab} onChange={handleChange}>
+        <TabPane tab="Sub-category" key="1">
+          <SubForm onFinish={submit} initialValues={data} />
+        </TabPane>  
+        {
+          data?.attributes.length && 
+          <TabPane tab="Attribute" key="2">
+          <AttributeForm onfinish={editAttribute} initialValue={singleAtt} />
+        </TabPane> 
+        }
+      </Tabs>;
     </div>
   )
 }
