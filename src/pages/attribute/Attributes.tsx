@@ -70,7 +70,7 @@ const Attributes = () => {
     <div >
       <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
                 <Button onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} />
+                <SearchForm searchValue={setSearch} data={filteredData} title={'attribute'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />

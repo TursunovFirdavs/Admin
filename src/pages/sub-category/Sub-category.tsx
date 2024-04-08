@@ -78,7 +78,7 @@ const SubCategory = () => {
     <div >
       <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
       <Button onClick={() => navigate('/create-sub')} type='primary'>Create Sub Category</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} />
+                <SearchForm searchValue={setSearch} data={filteredData} title={'sub'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />

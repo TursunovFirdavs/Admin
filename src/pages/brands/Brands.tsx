@@ -73,7 +73,7 @@ const Brands = () => {
     <div >
       <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
       <Button onClick={() => navigate('/create-brand')} type='primary'>Create Brand</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} />
+                <SearchForm searchValue={setSearch} data={filteredData} title={'brand'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />

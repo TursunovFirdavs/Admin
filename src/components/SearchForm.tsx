@@ -1,13 +1,15 @@
 import { SearchOutlined } from "@ant-design/icons"
 import { Image, Input, Modal } from "antd"
 import { FC, useState } from "react"
+import { Link } from "react-router-dom"
 
 interface Props {
     searchValue: any
     data: any
+    title: string
 }
 
-const SearchForm: FC<Props> = ({searchValue, data}) => {
+const SearchForm: FC<Props> = ({searchValue, data, title}) => {
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [search, setSearch] = useState('')
     searchValue(search)
@@ -28,10 +30,10 @@ const SearchForm: FC<Props> = ({searchValue, data}) => {
                 </div>
                 <div style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px'}}>
                     {search.length > 1 && data?.map((item: any) => (
-                        <div style={{display: 'flex', alignItems: 'center', gap: '30px'}}>
+                        <Link to={`/edit-${title}/${item.id}`} style={{display: 'flex', alignItems: 'center', gap: '30px'}}>
                             <Image style={{width: '50px', height: '50px'}} src={item.image} />
-                            <p style={{fontSize: '18px'}}>{item.title}</p>
-                        </div>
+                            <p style={{fontSize: '18px', color: '#000'}}>{item.title}</p>
+                        </Link>
                     ))}
                 </div>
             </Modal>
