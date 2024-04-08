@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons"
 import { Image, Input, Modal } from "antd"
-import { FC, useState } from "react"
+import { FC, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
 interface Props {
@@ -13,8 +13,13 @@ const SearchForm: FC<Props> = ({searchValue, data, title}) => {
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [search, setSearch] = useState('')
     searchValue(search)
-    // console.log(search);
+    const inputRef: any = useRef(null)
 
+    const handleModalVisibilityChange = (newVisible: any) => {
+        if (newVisible) {
+          inputRef.current?.focus();
+        }
+      };
 
     return (
         <div>
@@ -23,9 +28,9 @@ const SearchForm: FC<Props> = ({searchValue, data, title}) => {
                 <SearchOutlined />
             </div>
 
-            <Modal title="Basic Modal" visible={isOpenModal} open={isOpenModal} onOk={() => setIsOpenModal(false)} onCancel={() => setIsOpenModal(false)} >
+            <Modal title="Basic Modal" afterOpenChange={handleModalVisibilityChange} open={isOpenModal} onOk={() => setIsOpenModal(false)} onCancel={() => setIsOpenModal(false)} >
                 <div style={{ display: 'flex', border: '1px solid gray', borderRadius: '20px', overflow: 'hidden', width: '100%', paddingRight: '10px' }}>
-                    <Input onChange={(e) => setSearch(e.target.value)} style={{ border: 'none', outline: 'none' }} placeholder="Search" />
+                    {isOpenModal && <Input ref={inputRef} onChange={(e) => setSearch(e.target.value)} style={{ border: 'none', outline: 'none' }} placeholder="Search" />}
                     <SearchOutlined />
                 </div>
                 <div style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px'}}>
