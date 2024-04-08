@@ -12,9 +12,9 @@ import CreateBrand from "./brands/Create-brands"
 import Products from "./products/Products"
 import CreateProduct from "./products/Create-product"
 import EditProduct from "./products/Edit-product"
-import Attributes from "./attribute/Attributes"
-import CreateAttribute from "./attribute/Create-attribute"
-import EditAttribute from "./attribute/Edit-attribute"
+// import Attributes from "./attribute/Attributes"
+// import CreateAttribute from "./attribute/Create-attribute"
+// import EditAttribute from "./attribute/Edit-attribute"
 
 const index = () => {
   return (
@@ -32,9 +32,9 @@ const index = () => {
         <Route path="/products" element={<Products/>} />
         <Route path="/create-product" element={<CreateProduct/>} />
         <Route path="/edit-product/:id" element={<EditProduct/>} />
-        <Route path="/attribute" element={<Attributes/>} />
+        {/* <Route path="/attribute" element={<Attributes/>} />
         <Route path="/create-attribute" element={<CreateAttribute/>} />
-        <Route path="/edit-attribute/:id" element={<EditAttribute/>} />
+        <Route path="/edit-attribute/:id" element={<EditAttribute/>} /> */}
     </Routes>
   )
 }

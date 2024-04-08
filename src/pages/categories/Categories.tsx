@@ -1,4 +1,4 @@
-import { Image, Input, Table } from 'antd';
+import { Image, Table } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement, useState } from 'react';

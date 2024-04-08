@@ -75,7 +75,7 @@ const Products = () => {
 
     return (
         <div >
-            <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-product')} type='primary'>Create Product</Button>
+            {/* <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-product')} type='primary'>Create Product</Button> */}
             <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
             </div>

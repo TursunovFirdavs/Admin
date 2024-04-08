@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import AttributeForm from './components/Attribute-form'
 import { useEditAttribute } from './service/mutation/useEditAttribute'
 import { useGetSingleAttribute } from './service/query/useGetSingleAtt'
@@ -13,7 +13,7 @@ const EditBrand: React.FC = () => {
   
   const { data, isLoading } = useGetSingleAttribute(id as string)
   const { mutate } = useEditAttribute(id as string)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   // console.log(data);
 

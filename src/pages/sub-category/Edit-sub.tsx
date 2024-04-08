@@ -51,6 +51,7 @@ const EditSub = () => {
       onSuccess: (res) => {
         console.log(res);
         message.success('success')
+        navigate('/sub-category')
       },
       onError: err => console.log(err)
       

@@ -24,7 +24,7 @@ const items: MenuItem[] = [
   getItem(<Link to={'/'}>Categories</Link>, '1'),
   getItem(<Link to={'/sub-category'}>Sub categories</Link>, '2'),
   getItem(<Link to={'/brands'}>Brand list</Link>, '3'),
-  getItem(<Link to={'/attribute'}>Attribute</Link>, '4'),
+  // getItem(<Link to={'/attribute'}>Attribute</Link>, '4'),
   getItem(<Link to={'/products'}>Products</Link>, '5'),
 ];
 
