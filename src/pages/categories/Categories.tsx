@@ -63,7 +63,7 @@ const Categories: FC = () => {
     
     return (
         <div >
-            <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px'}}>
+            <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
                 <Button onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
                 <SearchForm />
             </div>
