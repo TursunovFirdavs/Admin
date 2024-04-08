@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useGetBrands } from "./service/query/useGetBrands"
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
+import SearchForm from "../../components/SearchForm";
 
 const Brands = () => {
   const { data: brands } = useGetBrands()
   const { mutate } = useDeleteBrand()
+  const [search, setSearch] = useState('')
   
   console.log(brands);
 
@@ -21,6 +23,10 @@ const Brands = () => {
     action: ReactElement
     //   tags: string[];
   }
+
+  const filteredData = brands?.results?.filter((item:any) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+);
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -65,7 +71,10 @@ const Brands = () => {
 
   return (
     <div >
-      <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-brand')} type='primary'>Create Brand</Button>
+      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
+      <Button onClick={() => navigate('/create-brand')} type='primary'>Create Brand</Button>
+                <SearchForm searchValue={setSearch} data={filteredData} />
+            </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />
       </div>

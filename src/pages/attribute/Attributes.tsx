@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useGetAttributes } from "./service/query/useGetAttributes"
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { Button, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteAttribut } from "./service/mutation/useDeleteAttribute";
+import SearchForm from "../../components/SearchForm";
 
 const Attributes = () => {
-  const { data: brands } = useGetAttributes()
+  const { data: attributes } = useGetAttributes()
   const { mutate } = useDeleteAttribut()
+  const [search, setSearch] = useState('')
   
-  console.log(brands);
+  console.log(attributes);
 
   const navigate = useNavigate()
 
@@ -46,8 +48,12 @@ const Attributes = () => {
     },
   ];
 
+  const filteredData = attributes?.results?.filter((item:any) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+);
 
-  const data: DataType[] = brands?.results?.map((item: any) => (
+
+  const data: DataType[] = attributes?.results?.map((item: any) => (
     {
       id: item.id,
       title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
@@ -62,7 +68,10 @@ const Attributes = () => {
 
   return (
     <div >
-      <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
+      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
+                <Button onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
+                <SearchForm searchValue={setSearch} data={filteredData} />
+            </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />
       </div>

@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useGetSub } from "./service/query/useGetSub"
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteSub } from "./service/mutation/useDeleteSub";
+import SearchForm from "../../components/SearchForm";
 
 const SubCategory = () => {
   const { data: subCategory } = useGetSub()
   const { mutate } = useDeleteSub()
+  const [search, setSearch] = useState('')
   
   console.log(subCategory);
 
@@ -51,6 +53,10 @@ const SubCategory = () => {
     },
   ];
 
+  const filteredData = subCategory?.results?.filter((item:any) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+);
+
 
   const data: DataType[] = subCategory?.results?.map((item: any) => (
     {
@@ -70,7 +76,10 @@ const SubCategory = () => {
 
   return (
     <div >
-      <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-sub')} type='primary'>Create Sub Category</Button>
+      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
+      <Button onClick={() => navigate('/create-sub')} type='primary'>Create Sub Category</Button>
+                <SearchForm searchValue={setSearch} data={filteredData} />
+            </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />
       </div>
