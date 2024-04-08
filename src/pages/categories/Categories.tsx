@@ -1,14 +1,17 @@
 import { Image, Input, Table } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDelete } from './service/mutation/useDelete';
 import { useNavigate } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm';
 
 const Categories: FC = () => {
+    const [search, setSearch] = useState('')
     const navigate = useNavigate()
+    // console.log(search);
+    
 
     interface DataType {
         id: number;
@@ -44,7 +47,16 @@ const Categories: FC = () => {
 
     const { data: categoryList } = useGetCategory()
     const { mutate: deleteMutation } = useDelete()
-    console.log(categoryList?.results);
+    // console.log(categoryList?.results);
+    // console.log(categoryList);
+    
+
+    const filteredData = categoryList?.results?.filter((item:any) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    console.log(filteredData);
+    
 
     const data: DataType[] = categoryList?.results?.map((item: any) => (
         {
@@ -65,7 +77,7 @@ const Categories: FC = () => {
         <div >
             <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
                 <Button onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
-                <SearchForm />
+                <SearchForm searchValue={setSearch} data={filteredData} />
             </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
