@@ -1,7 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons"
-import { Button, Form, Image, Input, Select, Upload, UploadFile, UploadProps } from "antd"
+import { Button, Form, Image, Input, Select, Switch, Upload, UploadFile, UploadProps } from "antd"
 import { FC, useState } from "react"
-import { useGetCategory } from "../../categories/service/query/useGetCategory"
+import { useGetSub } from "../../sub-category/service/query/useGetSub"
 
 interface Props {
     onFinish: (values: FieldType) => void
@@ -22,7 +22,7 @@ export interface FieldType {
 
 const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
 
-    const { data: categories } = useGetCategory()
+    const { data: categories } = useGetSub()
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -34,6 +34,10 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
             { label: <span>{item.title}</span>, value: item.id }
         ))
 
+    const onChange = (checked: boolean) => {
+        console.log(`switch to ${checked}`);
+    };
+
 
     return (
         <div>
@@ -44,10 +48,19 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
                 onFinish={onFinish}
                 style={{ maxWidth: "600px" }}
             >
+                {!initialValues &&
+                    <Form.Item
+                        label='Category'
+                        name="category"
+                        rules={[{ required: true, message: 'Please input your category!' }]}
+                    >
+                        <Select defaultValue="choose category" style={{ width: '100%' }} options={options} />
+                    </Form.Item>
+                }
                 <Form.Item
-                    label="Username"
+                    label="Title"
                     name="title"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[{ required: true, message: 'Please input your title!' }]}
                 >
                     <Input />
                 </Form.Item>
@@ -55,10 +68,26 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
                 <Form.Item
                     label="Price"
                     name="price"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[{ required: true, message: 'Please input your price!' }]}
                 >
                     <Input />
                 </Form.Item>
+
+                <div style={{display: 'flex', gap: '10px'}}>
+                <Form.Item
+                label='Is available'
+                name='is_available'
+                >
+                    <Switch defaultValue={false} defaultChecked={false} onChange={onChange} />
+                </Form.Item>
+                
+                <Form.Item
+                label='Is new'
+                name='is_new'
+                >
+                    <Switch defaultValue={false} defaultChecked={false} onChange={onChange} />
+                </Form.Item>
+                </div>
 
                 <Form.Item
                     label="Image"
@@ -78,14 +107,6 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
                         </button>}
                     </Upload.Dragger>
                 </Form.Item>
-                {!initialValues &&
-                    <Form.Item
-                        name="category"
-                        rules={[{ required: true, message: 'Please input your category!' }]}
-                    >
-                        <Select defaultValue="choose category" style={{ width: '100%' }} options={options} />
-                    </Form.Item>
-                }
 
                 {initialValues && !fileList.length &&
                     <div style={{ width: '200px', marginBottom: '30px' }}>
@@ -95,7 +116,7 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Create
                     </Button>
                 </Form.Item>
             </Form>

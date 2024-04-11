@@ -1,17 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { useGetProducts } from "./service/query/useGetProducts"
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import SearchForm from "../../components/SearchForm";
 // import { useDeleteSub } from "./service/mutation/useDeleteSub";
 
 const Products = () => {
+    const [search, setSearch] = useState('')
     const { data: products } = useGetProducts()
     //   const { mutate } = useDeleteSub()
-
     console.log(products);
-
     const navigate = useNavigate()
+
+    const filteredData = products?.results?.filter((item:any) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+    );
 
     interface DataType {
         id: number;
@@ -75,7 +79,10 @@ const Products = () => {
 
     return (
         <div >
-            {/* <Button style={{ marginBottom: '40px' }} onClick={() => navigate('/create-product')} type='primary'>Create Product</Button> */}
+            <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
+                <Button onClick={() => navigate('/create-product')} type='primary'>Create Product</Button>
+                <SearchForm searchValue={setSearch} data={filteredData} title={'category'} />
+            </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
             </div>
