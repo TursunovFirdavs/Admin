@@ -3,18 +3,19 @@ import { useGetSingleProduct } from "./service/query/useGetSingle"
 import ProductForm from "./components/ProductForm"
 import { useEditProduct } from "./service/mutation/useEditProduct"
 import { FieldType } from "./components/ProductForm"
+import { Spin } from "antd"
 
 const EditProduct = () => {
 
   const { id } = useParams()
-  const { data } = useGetSingleProduct(id as string)
+  const { data, isLoading } = useGetSingleProduct(id as string)
   const { mutate } = useEditProduct(id as string)
   const navigate = useNavigate()
   console.log(data);
 
   const submit = (values: FieldType) => {
     console.log(values);
-    
+
     const formData = new FormData()
     formData.append('title', values.title)
     formData.append('image', values.image.file)
@@ -24,19 +25,21 @@ const EditProduct = () => {
     formData.append('is_available', values.is_available as any)
     console.log(formData);
 
-      mutate(formData, {
-        onSuccess: () => {
-          navigate('/products')
-        },
-        onError: err => console.log(err)
-        
-      })
+    mutate(formData, {
+      onSuccess: () => {
+        navigate('/products')
+      },
+      onError: err => console.log(err)
+
+    })
   }
-  
+
 
   return (
     <div>
-      <ProductForm onFinish={submit} initialValues={data} />
+      {isLoading ? <Spin /> :
+        <ProductForm onFinish={submit} initialValues={data} />
+      }
     </div>
   )
 }

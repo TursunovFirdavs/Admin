@@ -52,7 +52,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Submit
+        {initialValue ? 'Edit' : 'Create'}
         </Button>
       </Form.Item>
     </Form>

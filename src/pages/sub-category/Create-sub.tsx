@@ -11,6 +11,7 @@ import { useCreateAttribute } from "../attribute/service/mutation/useCreateAttri
 const CreateSub: FC = () => {
   const [tab, setTab] = useState('1')
   const [subId, setSubId] = useState(0)
+  const [disable, setDisable] = useState(true)
   const { mutate } = useCreateSub()
   const { mutate: attributeMutate } = useCreateAttribute()
   const navigate = useNavigate()
@@ -20,8 +21,6 @@ const CreateSub: FC = () => {
   };
 
   const submit = (values: FieldType) => {
-    console.log(values);
-    
     const formData = new FormData()
     formData.append('title', values.title)
     formData.append('image', values.image.file)
@@ -30,6 +29,7 @@ const CreateSub: FC = () => {
       onSuccess: (res) => {
         console.log(res.data.id);
         setSubId(res.data.id)
+        setDisable(false)
         setTab('2')
       },
       onError: err => console.log(err)
@@ -65,7 +65,7 @@ const CreateSub: FC = () => {
         <TabPane tab="Sub-category" key="1">
           <SubForm onFinish={submit} />
         </TabPane>  
-        <TabPane tab="Attribute" key="2">
+        <TabPane disabled={disable} tab="Attribute" key="2">
           <AttributeForm onfinish={createAttribute} />
         </TabPane> 
       </Tabs>;
