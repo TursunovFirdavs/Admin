@@ -20,8 +20,8 @@ const EditProduct = () => {
     formData.append('image', values.image.file)
     formData.append('category', data.category)
     formData.append('price', values.price)
-    formData.append('is_new', values.is_new)
-    formData.append('is_available', values.is_available)
+    formData.append('is_new', values.is_new as any)
+    formData.append('is_available', values.is_available as any)
     console.log(formData);
 
       mutate(formData, {

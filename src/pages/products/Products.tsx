@@ -4,12 +4,12 @@ import { ReactElement, useState } from "react";
 import { Button, Image, Table, TableProps } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SearchForm from "../../components/SearchForm";
-// import { useDeleteSub } from "./service/mutation/useDeleteSub";
+import { useDeleteProduct } from "./service/mutation/useDelete";
 
 const Products = () => {
     const [search, setSearch] = useState('')
     const { data: products } = useGetProducts()
-    //   const { mutate } = useDeleteSub()
+    const { mutate } = useDeleteProduct()
     console.log(products);
     const navigate = useNavigate()
 
@@ -71,7 +71,7 @@ const Products = () => {
             category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
                 <Button onClick={() => navigate(`/edit-product/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-                <Button size='large' type="primary" danger>
+                <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
         }
