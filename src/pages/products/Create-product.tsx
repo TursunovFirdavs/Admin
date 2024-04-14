@@ -1,12 +1,11 @@
 import ProductForm from "./components/ProductForm"
 import { useCreateProduct } from "./service/mutation/UseCreateProduct";
-import { FieldType } from "./components/ProductForm";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateProduct: FC = () => {
-  const [is_new, setIsNew] = useState(false)
-  const [is_available, setIsAvailable] = useState(false)
+  const [is_new, setIsNew]:any = useState(false)
+  const [is_available, setIsAvailable]:any = useState(false)
   const { mutate } = useCreateProduct()
   const navigate = useNavigate()
 

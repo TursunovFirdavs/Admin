@@ -13,10 +13,17 @@ const EditProduct = () => {
   console.log(data);
 
   const submit = (values: FieldType) => {
-      const formData = new FormData()
-      formData.append('title', values.title)
-      formData.append('image', values.image.file)
-      formData.append('price', values.price)
+    console.log(values);
+    
+    const formData = new FormData()
+    formData.append('title', values.title)
+    formData.append('image', values.image.file)
+    formData.append('category', data.category)
+    formData.append('price', values.price)
+    formData.append('is_new', values.is_new)
+    formData.append('is_available', values.is_available)
+    console.log(formData);
+
       mutate(formData, {
         onSuccess: () => {
           navigate('/products')

@@ -7,7 +7,9 @@ interface Props {
     onFinish: (values: FieldType) => void
     initialValues?: {
         title: string,
-        image: string
+        image: string,
+        is_available: boolean,
+        is_new: boolean
     }
 }
 
@@ -15,13 +17,16 @@ export interface FieldType {
     title: string;
     category: string;
     price: string,
+    is_available: boolean,
+    is_new: boolean,
     image: {
         file: File;
     }
 }
 
 const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
-
+    console.log(initialValues);
+    
     const { data: categories } = useGetSub()
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -78,14 +83,14 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
                 label='Is available'
                 name='is_available'
                 >
-                    <Switch defaultValue={false} defaultChecked={false} onChange={onChange} />
+                    <Switch defaultValue={initialValues ? initialValues.is_available : false} defaultChecked={initialValues ? initialValues.is_available : false} onChange={onChange} />
                 </Form.Item>
                 
                 <Form.Item
                 label='Is new'
                 name='is_new'
                 >
-                    <Switch defaultValue={false} defaultChecked={false} onChange={onChange} />
+                    <Switch defaultValue={initialValues ? initialValues.is_new : false} defaultChecked={false} onChange={onChange} />
                 </Form.Item>
                 </div>
 
