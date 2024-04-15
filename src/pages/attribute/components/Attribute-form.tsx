@@ -1,6 +1,6 @@
 import React from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, Space } from 'antd';
 
 interface Props {
   onfinish: (values: any) => void
@@ -9,7 +9,7 @@ interface Props {
 
 const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   const [form] = Form.useForm();
-  // console.log(initialValue);
+  console.log(initialValue);
   
 
   return (
@@ -17,42 +17,68 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 18 }}
       form={form}
-      onFinish={onfinish}
       name="dynamic_form_complex"
       style={{ maxWidth: 600 }}
+      onFinish={onfinish}
       autoComplete="off"
-      initialValues={initialValue}
+      initialValues={{ items: [{}] }}
     >
-      <Form.Item name={"title"}>
-        <Input placeholder='title' />
-      </Form.Item>
-      <Form.List name="values">
-      {(fields, { add, remove }) => (
-        <>
-          {fields.map(({ key, name, ...restField }) => (
-            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-              <Form.Item
-                {...restField}
-                name={[name, 'value']}
-                rules={[{ required: true, message: 'Missing first name' }]}
+      <Form.List name="items">
+        {(fields, { add, remove }) => (
+          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+            {fields.map((field) => (
+              <Card
+                size="small"
+                title={`Item ${field.name + 1}`}
+                key={field.key}
+                extra={
+                  <CloseOutlined
+                    onClick={() => {
+                      remove(field.name);
+                    }}
+                  />
+                }
               >
-                <Input placeholder="value" />
-              </Form.Item>
-              <MinusCircleOutlined onClick={() => remove(name)} />
-            </Space>
-          ))}
-          <Form.Item>
-            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-              Add value
-            </Button>
-          </Form.Item>
-        </>
-      )}
-    </Form.List>
+                <Form.Item label="Title" name={[field.name, 'title']}>
+                  <Input />
+                </Form.Item>
 
+                {/* Nest Form.List */}
+                <Form.Item label="List">
+                  <Form.List name={[field.name, 'values']}>
+                    {(subFields, subOpt) => (
+                      <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                        {subFields.map((subField) => (
+                          <Space key={subField.key}>
+                            <Form.Item noStyle name={[subField.name, 'value']}>
+                              <Input placeholder="value" />
+                            </Form.Item>
+                            <CloseOutlined
+                              onClick={() => {
+                                subOpt.remove(subField.name);
+                              }}
+                            />
+                          </Space>
+                        ))}
+                        <Button type="dashed" onClick={() => subOpt.add()} block>
+                          + Add Sub Item
+                        </Button>
+                      </div>
+                    )}
+                  </Form.List>
+                </Form.Item>
+              </Card>
+            ))}
+
+            <Button type="dashed" onClick={() => add()} block>
+              + Add Item
+            </Button>
+          </div>
+        )}
+      </Form.List>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-        {initialValue ? 'Edit' : 'Create'}
+        create
         </Button>
       </Form.Item>
     </Form>

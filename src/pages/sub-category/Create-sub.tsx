@@ -40,17 +40,26 @@ const CreateSub: FC = () => {
   
 
   const createAttribute = (values:any) => {
-    const correctValue: string[] = []
-    values?.values.map((item: any) => {
-      correctValue.push(item.value)
-    })
-    console.log(correctValue);
+    console.log(values);
+    const newValues:any = []
     
-    console.log({...values, values:correctValue, category: [subId]})
-    attributeMutate({...values, values:correctValue, category: [subId]}, {
+    values?.items.map((item: any) => {
+      console.log(item);
+      const correctValue: any = []
+      item?.values.map((item: any) => {
+        console.log(item);
+        correctValue.push(item.value)
+      })
+
+      newValues.push({...item, values: correctValue, category: [subId]})
+      
+    })
+    
+    console.log(newValues)
+    attributeMutate(newValues, {
       onSuccess: (res) => {
         console.log(res)
-        navigate('/attribute')
+        navigate('/sub-category')
         message.success('success')
       },
       onError: err => console.log(err)
