@@ -63,7 +63,6 @@ const CreateSub: FC = () => {
         message.success('success')
       },
       onError: err => console.log(err)
-      
     })
   }
 

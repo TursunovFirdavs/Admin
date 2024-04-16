@@ -21,9 +21,8 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
       style={{ maxWidth: 600 }}
       onFinish={onfinish}
       autoComplete="off"
-      initialValues={{ items: [{}] }}
     >
-      <Form.List name="items">
+      <Form.List name="items" initialValue={initialValue}>
         {(fields, { add, remove }) => (
           <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
             {fields.map((field) => (
