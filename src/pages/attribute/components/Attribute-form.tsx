@@ -10,7 +10,7 @@ interface Props {
 const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   const [form] = Form.useForm();
   console.log(initialValue);
-  
+
 
   return (
     <Form
@@ -45,25 +45,47 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                 {/* Nest Form.List */}
                 <Form.Item label="List">
                   <Form.List name={[field.name, 'values']}>
-                    {(subFields, subOpt) => (
+                    {initialValue ? (_, subOpt) => (
                       <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-                        {subFields.map((subField) => (
-                          <Space key={subField.key}>
-                            <Form.Item noStyle name={[subField.name, 'value']}>
-                              <Input placeholder="value" />
-                            </Form.Item>
-                            <CloseOutlined
-                              onClick={() => {
-                                subOpt.remove(subField.name);
-                              }}
-                            />
-                          </Space>
-                        ))}
+                        {initialValue?.map((item: any) => {
+                          {item?.values.map((subField: any, index: any) => (
+                            <Space key={index}>
+                              <Form.Item noStyle name={[index, 'value']}>
+                                <Input placeholder="value" />
+                              </Form.Item>
+                              <CloseOutlined
+                                onClick={() => {
+                                  subOpt.remove(index);
+                                }}
+                              />
+                            </Space>
+                          ))}
+                        })}
                         <Button type="dashed" onClick={() => subOpt.add()} block>
                           + Add Sub Item
                         </Button>
                       </div>
-                    )}
+                    ) :
+                      (subFields, subOpt) => (
+                        <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                          {subFields.map((subField) => (
+                            <Space key={subField.key}>
+                              <Form.Item noStyle name={[subField.name, 'value']}>
+                                <Input placeholder="value" />
+                              </Form.Item>
+                              <CloseOutlined
+                                onClick={() => {
+                                  subOpt.remove(subField.name);
+                                }}
+                              />
+                            </Space>
+                          ))}
+                          <Button type="dashed" onClick={() => subOpt.add()} block>
+                            + Add Sub Item
+                          </Button>
+                        </div>
+                      )
+                    }
                   </Form.List>
                 </Form.Item>
               </Card>
@@ -77,7 +99,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
       </Form.List>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-        create
+          create
         </Button>
       </Form.Item>
     </Form>
