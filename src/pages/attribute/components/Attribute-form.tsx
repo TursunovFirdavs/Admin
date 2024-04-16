@@ -10,7 +10,7 @@ interface Props {
 const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   const [form] = Form.useForm();
   console.log(initialValue);
-
+  
 
   return (
     <Form
@@ -23,50 +23,31 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
       autoComplete="off"
     >
       <Form.List name="items" initialValue={initialValue}>
-        {(fields, { add, remove }) => (
-          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
-            {fields.map((field) => (
-              <Card
-                size="small"
-                title={`Item ${field.name + 1}`}
-                key={field.key}
-                extra={
-                  <CloseOutlined
-                    onClick={() => {
-                      remove(field.name);
-                    }}
-                  />
-                }
-              >
-                <Form.Item label="Title" name={[field.name, 'title']}>
-                  <Input />
-                </Form.Item>
-
-                {/* Nest Form.List */}
-                <Form.Item label="List">
-                  <Form.List name={[field.name, 'values']}>
-                    {initialValue ? (_, subOpt) => (
-                      <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-                        {initialValue?.map((item: any) => {
-                          {item?.values.map((subField: any, index: any) => (
-                            <Space key={index}>
-                              <Form.Item noStyle name={[index, 'value']}>
-                                <Input placeholder="value" />
-                              </Form.Item>
-                              <CloseOutlined
-                                onClick={() => {
-                                  subOpt.remove(index);
-                                }}
-                              />
-                            </Space>
-                          ))}
-                        })}
-                        <Button type="dashed" onClick={() => subOpt.add()} block>
-                          + Add Sub Item
-                        </Button>
-                      </div>
-                    ) :
-                      (subFields, subOpt) => (
+        {(fields, { add, remove }) => {
+          console.log(fields);
+          return (
+            <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+              {fields.map((field) => (
+                <Card
+                  size="small"
+                  title={`Item ${field.name + 1}`}
+                  key={field.key}
+                  extra={
+                    <CloseOutlined
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                    />
+                  }
+                >
+                  <Form.Item label="Title" name={[field.name, 'title']}>
+                    <Input />
+                  </Form.Item>
+  
+                  {/* Nest Form.List */}
+                  <Form.Item label="List">
+                    <Form.List name={[field.name, 'values']}>
+                      {(subFields, subOpt) => (
                         <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
                           {subFields.map((subField) => (
                             <Space key={subField.key}>
@@ -84,22 +65,22 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                             + Add Sub Item
                           </Button>
                         </div>
-                      )
-                    }
-                  </Form.List>
-                </Form.Item>
-              </Card>
-            ))}
-
-            <Button type="dashed" onClick={() => add()} block>
-              + Add Item
-            </Button>
-          </div>
-        )}
+                      )}
+                    </Form.List>
+                  </Form.Item>
+                </Card>
+              ))}
+  
+              <Button type="dashed" onClick={() => add()} block>
+                + Add Item
+              </Button>
+            </div>
+          )
+        }}
       </Form.List>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          create
+        create
         </Button>
       </Form.Item>
     </Form>
