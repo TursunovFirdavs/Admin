@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useGetSub } from "./service/query/useGetSub"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps } from "antd";
+import { Button, Image, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteSub } from "./service/mutation/useDeleteSub";
 import SearchForm from "../../components/SearchForm";
+import { client } from "../../config/query-client";
 
 const SubCategory = () => {
   const { data: subCategory } = useGetSub()
@@ -57,6 +58,15 @@ const SubCategory = () => {
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
+const handleDelete = (id: string) => {
+  mutate(id, {
+      onSuccess: () => {
+          client.invalidateQueries({ queryKey: ['sub-category'] })
+          message.success('success')
+      }
+  })
+}
+
 
   const data: DataType[] = subCategory?.results?.map((item: any) => (
     {
@@ -68,7 +78,7 @@ const SubCategory = () => {
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate(`/edit-sub/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-        <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
+        <Button onClick={() => handleDelete(item.id)} size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
     }

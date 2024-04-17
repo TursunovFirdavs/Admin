@@ -1,4 +1,4 @@
-import { Image, Table } from 'antd';
+import { Image, Table, message } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement, useState } from 'react';
@@ -6,6 +6,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDelete } from './service/mutation/useDelete';
 import { useNavigate } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm';
+import { client } from '../../config/query-client';
 
 const Categories: FC = () => {
     const [search, setSearch] = useState('')
@@ -55,6 +56,15 @@ const Categories: FC = () => {
         item.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    const handleDelete = (id: string) => {
+        deleteMutation(id, {
+            onSuccess: () => {
+                client.invalidateQueries({ queryKey: ['category'] })
+                message.success('success')
+            }
+        })
+      }
+
     console.log(filteredData);
     
 
@@ -67,7 +77,7 @@ const Categories: FC = () => {
             title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
                 <Button onClick={() => navigate(`/edit-category/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-                <Button onClick={() => deleteMutation(`/category/${item.id}/`, { onSuccess: res => console.log(res) })} size='large' type="primary" danger>
+                <Button onClick={() => handleDelete(`/category/${item.id}/` )} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
         }

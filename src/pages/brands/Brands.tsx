@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useGetBrands } from "./service/query/useGetBrands"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps } from "antd";
+import { Button, Image, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
 import SearchForm from "../../components/SearchForm";
+import { client } from "../../config/query-client";
 
 const Brands = () => {
   const { data: brands } = useGetBrands()
@@ -27,6 +28,15 @@ const Brands = () => {
   const filteredData = brands?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
+
+const handleDelete = (id: string) => {
+  mutate(id, {
+      onSuccess: () => {
+          client.invalidateQueries({ queryKey: ['brands'] })
+          message.success('success')
+      }
+  })
+}
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -63,7 +73,7 @@ const Brands = () => {
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
         <Button onClick={() => navigate(`/edit-brand/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-        <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
+        <Button onClick={() => handleDelete(item.id)} size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
     }

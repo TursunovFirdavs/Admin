@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useGetProducts } from "./service/query/useGetProducts"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps } from "antd";
+import { Button, Image, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SearchForm from "../../components/SearchForm";
 import { useDeleteProduct } from "./service/mutation/useDelete";
+import { client } from "../../config/query-client";
 
 const Products = () => {
     const [search, setSearch] = useState('')
@@ -16,6 +17,15 @@ const Products = () => {
     const filteredData = products?.results?.filter((item:any) =>
         item.title.toLowerCase().includes(search.toLowerCase())
     );
+
+    const handleDelete = (id: string) => {
+        mutate(id, {
+            onSuccess: () => {
+                client.invalidateQueries({ queryKey: ['products'] })
+                message.success('success')
+            }
+        })
+      }
 
     interface DataType {
         id: number;
@@ -71,7 +81,7 @@ const Products = () => {
             category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
                 <Button onClick={() => navigate(`/edit-product/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-                <Button onClick={() => mutate(item.id)} size='large' type="primary" danger>
+                <Button onClick={() => handleDelete(item.id)} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
         }
