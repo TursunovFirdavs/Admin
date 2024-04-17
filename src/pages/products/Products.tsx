@@ -91,7 +91,7 @@ const Products = () => {
         <div >
             <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
                 <Button onClick={() => navigate('/create-product')} type='primary'>Create Product</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} title={'category'} />
+                <SearchForm searchValue={setSearch} data={filteredData} title={'product'} />
             </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
                 <Table columns={columns} dataSource={data} />
