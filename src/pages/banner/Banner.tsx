@@ -60,7 +60,7 @@ const Banner = () => {
       title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
       category: <p style={{ fontSize: '16px', fontWeight: '700' }}>{item.parent?.title.length > 12 ? item.parent?.title.slice(0, 12).toUpperCase() + '...' : item.parent?.title.toUpperCase()}</p>,
       action: <div style={{ display: 'flex', gap: '10px' }}>
-        <Button onClick={() => navigate(`/edit-brand/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
+        <Button onClick={() => navigate(`/edit-banner/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
         <Button size='large' type="primary" danger>
           <DeleteOutlined />Delete</Button>
       </div>,
