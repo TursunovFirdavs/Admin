@@ -70,7 +70,7 @@ const Banner = () => {
   return (
     <div >
       <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
-      <Button onClick={() => navigate('/create-brand')} type='primary'>Create banner</Button>
+      <Button onClick={() => navigate('/create-banner')} type='primary'>Create banner</Button>
                 <SearchForm searchValue={setSearch} data={filteredData} title={'banner'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>

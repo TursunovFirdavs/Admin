@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
-export const useDeleteSub = () => {
+export const useDeleteAttValue = () => {
     return useMutation({
         mutationKey: ['att-value'],
         mutationFn: (id: string) => request

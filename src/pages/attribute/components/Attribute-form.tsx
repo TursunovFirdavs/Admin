@@ -1,6 +1,8 @@
 import React from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space } from 'antd';
+import { Button, Card, Form, Input, Space, message } from 'antd';
+import { useDeleteAttValue } from '../../sub-category/service/mutation/useDeleteAttValue';
+import { useDeleteAttribute } from '../../sub-category/service/mutation/useDeleteAtt';
 
 interface Props {
   onfinish: (values: any) => void
@@ -10,6 +12,8 @@ interface Props {
 const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   const [form] = Form.useForm();
   console.log(initialValue);
+  const { mutate } = useDeleteAttValue()
+  const { mutate: attMutate } = useDeleteAttribute()
   
 
   return (
@@ -36,6 +40,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                     <CloseOutlined
                       onClick={() => {
                         remove(field.name);
+                        attMutate(initialValue[field.name].id, {onSuccess: () => message.success('success')})
                       }}
                     />
                   }
@@ -56,6 +61,9 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                               </Form.Item>
                               <CloseOutlined
                                 onClick={() => {
+                                  if(initialValue && initialValue[field.name].values[subField.name].id){
+                                    mutate(initialValue[field.name].values[subField.name].id, {onSuccess: () => message.success('success')})
+                                  }
                                   subOpt.remove(subField.name);
                                 }}
                               />
