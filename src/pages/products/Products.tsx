@@ -12,11 +12,12 @@ const Products = () => {
     const [page, setPage] = useState(1)
     const [current, setCurrent] = useState(1)
     const { data: products } = useGetProducts(page)
+    const { data: getAll } = useGetProducts()
     const { mutate } = useDeleteProduct()
     console.log(products);
     const navigate = useNavigate()
 
-    const filteredData = products?.data?.results?.filter((item:any) =>
+    const filteredData = getAll?.data?.results?.filter((item:any) =>
         item.title.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -99,7 +100,7 @@ const Products = () => {
             <Pagination onChange={(page) => {
                     console.log(page);
                     setCurrent(page)
-                    setPage((page-1) * 5)
+                    setPage(page > 1 ? (page-1) * 5 : page)
                 } } total={products?.data.count} current={current} pageSize={5} />
                 <Table pagination={false} columns={columns} dataSource={data} />
             </div>

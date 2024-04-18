@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
 export const useGetCategory = (page?: number) => {
+    console.log(page);
+    
     return useQuery({
         queryKey: ['category', page],
         queryFn: () => request

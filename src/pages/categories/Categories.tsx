@@ -93,7 +93,7 @@ const Categories: FC = () => {
                 <Pagination onChange={(page) => {
                     console.log(page);
                     setCurrent(page)
-                    setPage((page > 1 ? page-1 : page) * 5)
+                    setPage(page > 1 ? (page - 1) * 5 : page)
                 } } total={categoryList?.data.count} current={current} pageSize={5} />
                 <Table loading={isLoading} pagination={false} columns={columns} dataSource={data} />
             </div>

@@ -11,6 +11,7 @@ const Banner = () => {
   const [page, setPage] = useState(1)
   const [current, setCurrent] = useState(1)
   const { data: banner } = useGetBanner(page)
+  const { data: getAll } = useGetBanner()
   const [search, setSearch] = useState('')
   const { mutate } = useDeleteBanner()
   
@@ -27,7 +28,7 @@ const Banner = () => {
     //   tags: string[];
   }
 
-  const filteredData = banner?.data?.results?.filter((item:any) =>
+  const filteredData = getAll?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
@@ -91,7 +92,7 @@ const Banner = () => {
       <Pagination onChange={(page) => {
                     console.log(page);
                     setCurrent(page)
-                    setPage((page-1) * 5)
+                    setPage(page > 1 ? (page-1) * 5 : page)
                 } } total={banner?.data.count} current={current} pageSize={5} />
         <Table pagination={false} columns={columns} dataSource={data} />
       </div>

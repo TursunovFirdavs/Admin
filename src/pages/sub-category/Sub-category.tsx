@@ -11,6 +11,7 @@ const SubCategory = () => {
   const [page, setPage] = useState(1)
   const [current, setCurrent] = useState(1)
   const { data: subCategory } = useGetSub(page)
+  const { data: getAll } = useGetSub()
   const { mutate } = useDeleteSub()
   const [search, setSearch] = useState('')
   
@@ -56,7 +57,7 @@ const SubCategory = () => {
     },
   ];
 
-  const filteredData = subCategory?.data?.results?.filter((item:any) =>
+  const filteredData = getAll?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
@@ -96,7 +97,7 @@ const handleDelete = (id: string) => {
       <Pagination onChange={(page) => {
                     console.log(page);
                     setCurrent(page)
-                    setPage((page > 1 ? page-1 : page) * 5)
+                    setPage(page > 1 ? (page - 1) * 5 : page)
                 } } total={subCategory?.data.count} current={current} pageSize={5} />
         <Table pagination={false} columns={columns} dataSource={data} />
       </div>

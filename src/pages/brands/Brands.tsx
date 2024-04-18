@@ -11,6 +11,7 @@ const Brands = () => {
   const [page, setPage] = useState(1)
   const [current, setCurrent] = useState(1)
   const { data: brands } = useGetBrands(page)
+  const { data: getAll } = useGetBrands()
   const { mutate } = useDeleteBrand()
   const [search, setSearch] = useState('')
   
@@ -27,7 +28,7 @@ const Brands = () => {
     //   tags: string[];
   }
 
-  const filteredData = brands?.data?.results?.filter((item:any) =>
+  const filteredData = getAll?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
