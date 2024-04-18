@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps, message } from "antd";
+import { Button, Image, Pagination, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SearchForm from "../../components/SearchForm";
 import { useGetBanner } from "./service/query/useGetBanner";
@@ -8,11 +8,13 @@ import { useDeleteBanner } from "./service/mutation/useDeleteBanner";
 import { client } from "../../config/query-client";
 
 const Banner = () => {
-  const { data: brands } = useGetBanner()
+  const [page, setPage] = useState(1)
+  const [current, setCurrent] = useState(1)
+  const { data: banner } = useGetBanner(page)
   const [search, setSearch] = useState('')
   const { mutate } = useDeleteBanner()
   
-  console.log(brands);
+  console.log(banner);
 
   const navigate = useNavigate()
 
@@ -25,7 +27,7 @@ const Banner = () => {
     //   tags: string[];
   }
 
-  const filteredData = brands?.results?.filter((item:any) =>
+  const filteredData = banner?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
@@ -63,7 +65,7 @@ const Banner = () => {
   ];
 
 
-  const data: DataType[] = brands?.results?.map((item: any) => (
+  const data: DataType[] = banner?.data?.results?.map((item: any) => (
     {
       id: item.id,
       image: <div style={{ width: '70px', height: '60px',  }} >
@@ -86,7 +88,12 @@ const Banner = () => {
                 <SearchForm searchValue={setSearch} data={filteredData} title={'banner'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
-        <Table columns={columns} dataSource={data} />
+      <Pagination onChange={(page) => {
+                    console.log(page);
+                    setCurrent(page)
+                    setPage((page-1) * 5)
+                } } total={banner?.data.count} current={current} pageSize={5} />
+        <Table pagination={false} columns={columns} dataSource={data} />
       </div>
     </div>
   )

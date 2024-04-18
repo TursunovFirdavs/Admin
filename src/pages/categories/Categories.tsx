@@ -1,4 +1,4 @@
-import { Image, Table, message } from 'antd';
+import { Image, Pagination, Table, message } from 'antd';
 import { TableProps, Button } from 'antd';
 import { useGetCategory } from './service/query/useGetCategory';
 import { FC, ReactElement, useState } from 'react';
@@ -10,6 +10,8 @@ import { client } from '../../config/query-client';
 
 const Categories: FC = () => {
     const [search, setSearch] = useState('')
+    const [page, setPage] = useState(1)
+    const [current, setCurrent] = useState(1)
     const navigate = useNavigate()
     // console.log(search);
     
@@ -46,13 +48,11 @@ const Categories: FC = () => {
         },
     ];
 
-    const { data: categoryList } = useGetCategory()
+    const { data: categoryList, isLoading } = useGetCategory(page)
+    const { data: getAll } = useGetCategory()
     const { mutate: deleteMutation } = useDelete()
-    // console.log(categoryList?.results);
-    // console.log(categoryList);
-    
 
-    const filteredData = categoryList?.results?.filter((item:any) =>
+    const filteredData = getAll?.data?.results?.filter((item:any) =>
         item.title.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -65,10 +65,10 @@ const Categories: FC = () => {
         })
       }
 
-    console.log(filteredData);
+    console.log(categoryList);
     
 
-    const data: DataType[] = categoryList?.results?.map((item: any) => (
+    const data: DataType[] = categoryList?.data?.results?.map((item: any) => (
         {
             id: item.id,
             image: <div style={{ width: '70px', height: '60px', }} >
@@ -90,7 +90,12 @@ const Categories: FC = () => {
                 <SearchForm searchValue={setSearch} data={filteredData} title={'category'} />
             </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
-                <Table columns={columns} dataSource={data} />
+                <Pagination onChange={(page) => {
+                    console.log(page);
+                    setCurrent(page)
+                    setPage((page > 1 ? page-1 : page) * 5)
+                } } total={categoryList?.data.count} current={current} pageSize={5} />
+                <Table loading={isLoading} pagination={false} columns={columns} dataSource={data} />
             </div>
         </div>
     )

@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useGetSub } from "./service/query/useGetSub"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps, message } from "antd";
+import { Button, Image, Pagination, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteSub } from "./service/mutation/useDeleteSub";
 import SearchForm from "../../components/SearchForm";
 import { client } from "../../config/query-client";
 
 const SubCategory = () => {
-  const { data: subCategory } = useGetSub()
+  const [page, setPage] = useState(1)
+  const [current, setCurrent] = useState(1)
+  const { data: subCategory } = useGetSub(page)
   const { mutate } = useDeleteSub()
   const [search, setSearch] = useState('')
   
@@ -54,7 +56,7 @@ const SubCategory = () => {
     },
   ];
 
-  const filteredData = subCategory?.results?.filter((item:any) =>
+  const filteredData = subCategory?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
@@ -68,7 +70,7 @@ const handleDelete = (id: string) => {
 }
 
 
-  const data: DataType[] = subCategory?.results?.map((item: any) => (
+  const data: DataType[] = subCategory?.data?.results?.map((item: any) => (
     {
       id: item.id,
       image: <div style={{ width: '70px', height: '60px',  }} >
@@ -91,7 +93,12 @@ const handleDelete = (id: string) => {
                 <SearchForm searchValue={setSearch} data={filteredData} title={'sub'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
-        <Table columns={columns} dataSource={data} />
+      <Pagination onChange={(page) => {
+                    console.log(page);
+                    setCurrent(page)
+                    setPage((page > 1 ? page-1 : page) * 5)
+                } } total={subCategory?.data.count} current={current} pageSize={5} />
+        <Table pagination={false} columns={columns} dataSource={data} />
       </div>
     </div>
   )

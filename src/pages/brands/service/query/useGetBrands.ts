@@ -1,11 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
-export const useGetBrands = () => {
+export const useGetBrands = (page: number) => {
     return useQuery({
-        queryKey: ['brands'],
+        queryKey: ['brands', page],
         queryFn: () => request
-            .get('/brand/')
-            .then(res => res.data)
+            .get('/brand/', { params: { offset: page, limit: 5  } })
+            .then(res => {
+                return {
+                    data: res.data,
+                    size: Math.ceil(res.data.count)
+                }
+            })
     })
 }

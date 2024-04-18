@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useGetBrands } from "./service/query/useGetBrands"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps, message } from "antd";
+import { Button, Image, Pagination, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteBrand } from "./service/mutation/useDeleteBrand";
 import SearchForm from "../../components/SearchForm";
 import { client } from "../../config/query-client";
 
 const Brands = () => {
-  const { data: brands } = useGetBrands()
+  const [page, setPage] = useState(1)
+  const [current, setCurrent] = useState(1)
+  const { data: brands } = useGetBrands(page)
   const { mutate } = useDeleteBrand()
   const [search, setSearch] = useState('')
   
@@ -25,7 +27,7 @@ const Brands = () => {
     //   tags: string[];
   }
 
-  const filteredData = brands?.results?.filter((item:any) =>
+  const filteredData = brands?.data?.results?.filter((item:any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
 );
 
@@ -63,7 +65,7 @@ const handleDelete = (id: string) => {
   ];
 
 
-  const data: DataType[] = brands?.results?.map((item: any) => (
+  const data: DataType[] = brands?.data?.results?.map((item: any) => (
     {
       id: item.id,
       image: <div style={{ width: '70px', height: '60px',  }} >
@@ -86,7 +88,12 @@ const handleDelete = (id: string) => {
                 <SearchForm searchValue={setSearch} data={filteredData} title={'brand'} />
             </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
-        <Table columns={columns} dataSource={data} />
+      <Pagination onChange={(page) => {
+                    console.log(page);
+                    setCurrent(page)
+                    setPage((page-1) * 5)
+                } } total={brands?.data.count} current={current} pageSize={5} />
+        <Table pagination={false} columns={columns} dataSource={data} />
       </div>
     </div>
   )

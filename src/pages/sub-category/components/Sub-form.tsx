@@ -29,7 +29,7 @@ const SubForm: FC<Props> = ({ onFinish, initialValues }) => {
         setFileList(newFileList);
 
     const options =
-        categories?.results?.map((item: any) => (
+        categories?.data?.results?.map((item: any) => (
             { label: <span>{item.title}</span>, value: item.id }
         ))
 

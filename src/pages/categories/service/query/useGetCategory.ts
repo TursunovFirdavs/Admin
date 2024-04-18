@@ -1,11 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
-export const useGetCategory = () => {
+export const useGetCategory = (page?: number) => {
     return useQuery({
-        queryKey: ['category'],
+        queryKey: ['category', page],
         queryFn: () => request
-            .get('/category/')
-            .then(res => res.data)
+            .get('/category/', { params: { offset: page, limit: page && 5 } })
+            .then(res => {
+                return {
+                    data: res.data,
+                    size: Math.ceil(res.data.count)
+                }
+            })
     })
 }

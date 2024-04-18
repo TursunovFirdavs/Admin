@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useGetProducts } from "./service/query/useGetProducts"
 import { ReactElement, useState } from "react";
-import { Button, Image, Table, TableProps, message } from "antd";
+import { Button, Image, Pagination, Table, TableProps, message } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SearchForm from "../../components/SearchForm";
 import { useDeleteProduct } from "./service/mutation/useDelete";
@@ -9,12 +9,14 @@ import { client } from "../../config/query-client";
 
 const Products = () => {
     const [search, setSearch] = useState('')
-    const { data: products } = useGetProducts()
+    const [page, setPage] = useState(1)
+    const [current, setCurrent] = useState(1)
+    const { data: products } = useGetProducts(page)
     const { mutate } = useDeleteProduct()
     console.log(products);
     const navigate = useNavigate()
 
-    const filteredData = products?.results?.filter((item:any) =>
+    const filteredData = products?.data?.results?.filter((item:any) =>
         item.title.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -71,7 +73,7 @@ const Products = () => {
     ];
 
 
-    const data: DataType[] = products?.results?.map((item: any) => (
+    const data: DataType[] = products?.data?.results?.map((item: any) => (
         {
             id: item.id,
             image: <div style={{ width: '70px', height: '60px', }} >
@@ -94,7 +96,12 @@ const Products = () => {
                 <SearchForm searchValue={setSearch} data={filteredData} title={'product'} />
             </div>
             <div style={{ height: '80vh', overflow: 'auto' }}>
-                <Table columns={columns} dataSource={data} />
+            <Pagination onChange={(page) => {
+                    console.log(page);
+                    setCurrent(page)
+                    setPage((page-1) * 5)
+                } } total={products?.data.count} current={current} pageSize={5} />
+                <Table pagination={false} columns={columns} dataSource={data} />
             </div>
         </div>
     )
