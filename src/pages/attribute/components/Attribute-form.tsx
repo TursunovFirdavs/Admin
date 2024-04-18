@@ -14,7 +14,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
   console.log(initialValue);
   const { mutate } = useDeleteAttValue()
   const { mutate: attMutate } = useDeleteAttribute()
-  
+
 
   return (
     <Form
@@ -40,7 +40,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                     <CloseOutlined
                       onClick={() => {
                         remove(field.name);
-                        attMutate(initialValue[field.name].id, {onSuccess: () => message.success('success')})
+                        attMutate(initialValue[field.name].id, { onSuccess: () => message.success('success') })
                       }}
                     />
                   }
@@ -48,7 +48,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                   <Form.Item label="Title" name={[field.name, 'title']}>
                     <Input />
                   </Form.Item>
-  
+
                   {/* Nest Form.List */}
                   <Form.Item label="List">
                     <Form.List name={[field.name, 'values']}>
@@ -61,8 +61,8 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                               </Form.Item>
                               <CloseOutlined
                                 onClick={() => {
-                                  if(initialValue && initialValue[field.name].values[subField.name].id){
-                                    mutate(initialValue[field.name].values[subField.name].id, {onSuccess: () => message.success('success')})
+                                  if (initialValue && initialValue[field.name].values[subField.name].id) {
+                                    mutate(initialValue[field.name].values[subField.name].id, { onSuccess: () => message.success('success') })
                                   }
                                   subOpt.remove(subField.name);
                                 }}
@@ -78,7 +78,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
                   </Form.Item>
                 </Card>
               ))}
-  
+
               <Button type="dashed" onClick={() => add()} block>
                 + Add Item
               </Button>
@@ -88,7 +88,7 @@ const AttributeForm: React.FC<Props> = ({ onfinish, initialValue }) => {
       </Form.List>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-        create
+          create
         </Button>
       </Form.Item>
     </Form>

@@ -18,7 +18,9 @@ const EditProduct = () => {
 
     const formData = new FormData()
     formData.append('title', values.title)
-    formData.append('image', values.image.file)
+    if(values.image && values.image.file) {
+      formData.append('image', values.image.file)
+    }
     formData.append('category', data.category)
     formData.append('price', values.price)
     formData.append('is_new', values.is_new as any)

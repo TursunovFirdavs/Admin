@@ -7,21 +7,20 @@ import { useDelete } from './service/mutation/useDelete';
 import { useNavigate } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm';
 import { client } from '../../config/query-client';
+import { getCategory } from '../../config/types';
 
 const Categories: FC = () => {
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [current, setCurrent] = useState(1)
     const navigate = useNavigate()
-    // console.log(search);
-    
+
 
     interface DataType {
         id: number;
         image: string;
         title: string;
         action: ReactElement
-        //   tags: string[];
     }
 
     const columns: TableProps<DataType>['columns'] = [
@@ -52,7 +51,7 @@ const Categories: FC = () => {
     const { data: getAll } = useGetCategory()
     const { mutate: deleteMutation } = useDelete()
 
-    const filteredData = getAll?.data?.results?.filter((item:any) =>
+    const filteredData = getAll?.data?.results?.filter((item: getCategory) => 
         item.title.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -63,13 +62,14 @@ const Categories: FC = () => {
                 message.success('success')
             }
         })
-      }
+    }
 
     console.log(categoryList);
-    
 
-    const data: DataType[] = categoryList?.data?.results?.map((item: any) => (
+
+    const data: DataType[] = categoryList?.data?.results?.map((item: getCategory) => (
         {
+            "key" : item.id,
             id: item.id,
             image: <div style={{ width: '70px', height: '60px', }} >
                 <Image src={item.image} alt="" />
@@ -77,15 +77,15 @@ const Categories: FC = () => {
             title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
             action: <div style={{ display: 'flex', gap: '10px' }}>
                 <Button onClick={() => navigate(`/edit-category/${item.id}`)} size='large' type="primary" ><EditOutlined />Edit</Button>
-                <Button onClick={() => handleDelete(`/category/${item.id}/` )} size='large' type="primary" danger>
+                <Button onClick={() => handleDelete(`/category/${item.id}/`)} size='large' type="primary" danger>
                     <DeleteOutlined />Delete</Button>
             </div>,
         }
     ))
-    
+
     return (
         <div >
-            <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
                 <Button onClick={() => navigate('/create-category')} type='primary'>Create Category</Button>
                 <SearchForm searchValue={setSearch} data={filteredData} title={'category'} />
             </div>
@@ -94,7 +94,7 @@ const Categories: FC = () => {
                     console.log(page);
                     setCurrent(page)
                     setPage(page > 1 ? (page - 1) * 5 : page)
-                } } total={categoryList?.data.count} current={current} pageSize={5} />
+                }} total={categoryList?.data.count} current={current} pageSize={5} />
                 <Table loading={isLoading} pagination={false} columns={columns} dataSource={data} />
             </div>
         </div>

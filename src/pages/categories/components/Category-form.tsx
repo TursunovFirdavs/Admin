@@ -70,7 +70,7 @@ const CategoryForm: FC<Props> = ({ onFinish, initialValues }) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                    {initialValues ? 'Edit' : 'Create'}
+                        {initialValues ? 'Edit' : 'Create'}
                     </Button>
                 </Form.Item>
             </Form>

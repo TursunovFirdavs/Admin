@@ -30,18 +30,18 @@ const items: MenuItem[] = [
 
 const Home: React.FC = () => {
   return (
-    <div style={{display: 'flex', maxWidth: '100vw'}}>
-        <div style={{ width: 256, height: '100vh', background: '#001529' }}>
-        <h1 style={{color: '#fff', fontFamily: 'sans-serif', padding: '25px', paddingBottom: '10px', paddingLeft: '26px'}}>Admin</h1>
-      <Menu 
-        style={{height: '90vh'}}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        theme="dark"
-        items={items}
-      />
-    </div>
+    <div style={{ display: 'flex', maxWidth: '100vw' }}>
+      <div style={{ width: 256, height: '100vh', background: '#001529' }}>
+        <h1 style={{ color: '#fff', fontFamily: 'sans-serif', padding: '25px', paddingBottom: '10px', paddingLeft: '26px' }}>Admin</h1>
+        <Menu
+          style={{ height: '90vh' }}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          theme="dark"
+          items={items}
+        />
+      </div>
     </div>
   );
 };

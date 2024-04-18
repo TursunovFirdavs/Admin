@@ -3,6 +3,7 @@ import { message, Spin } from 'antd';
 import { useGetSingleBanner } from './service/query/useGetSingleBanner';
 import BannerForm from './components/Banner-form';
 import { useEditBanner } from './service/mutation/useEtitBanner';
+import { getBanner } from '../../config/types';
 
 
 
@@ -16,12 +17,12 @@ const EditBanner: React.FC = () => {
   // console.log(data);
 
 
-  const submit = (values: any) => {
+  const submit = (values: getBanner) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
-    if(values.image) {
-        formData.append('image', values.image.file)
+    if (values.image && values.image.file) {
+      formData.append('image', values.image.file)
     }
     mutate(formData, {
       onSuccess: (res) => {

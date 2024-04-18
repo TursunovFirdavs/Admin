@@ -14,7 +14,7 @@ const Banner = () => {
   const { data: getAll } = useGetBanner()
   const [search, setSearch] = useState('')
   const { mutate } = useDeleteBanner()
-  
+
   console.log(banner);
 
   const navigate = useNavigate()
@@ -25,21 +25,20 @@ const Banner = () => {
     title: string;
     category: string;
     action: ReactElement
-    //   tags: string[];
   }
 
-  const filteredData = getAll?.data?.results?.filter((item:any) =>
+  const filteredData = getAll?.data?.results?.filter((item: any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
-);
+  );
 
-    const handleDelete = (id: string) => {
-        mutate(id, {
-            onSuccess: () => {
-                client.invalidateQueries({ queryKey: ['banner'] })
-                message.success('success')
-            }
-        })
-    }
+  const handleDelete = (id: string) => {
+    mutate(id, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ['banner'] })
+        message.success('success')
+      }
+    })
+  }
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -68,8 +67,9 @@ const Banner = () => {
 
   const data: DataType[] = banner?.data?.results?.map((item: any) => (
     {
+      "key": item.id,
       id: item.id,
-      image: <div style={{ width: '70px', height: '60px',  }} >
+      image: <div style={{ width: '70px', height: '60px', }} >
         <Image src={item.image} alt="" />
       </div>,
       title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
@@ -84,16 +84,16 @@ const Banner = () => {
 
   return (
     <div >
-      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
-      <Button onClick={() => navigate('/create-banner')} type='primary'>Create banner</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} title={'banner'} />
-            </div>
+      <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
+        <Button onClick={() => navigate('/create-banner')} type='primary'>Create banner</Button>
+        <SearchForm searchValue={setSearch} data={filteredData} title={'banner'} />
+      </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
-      <Pagination onChange={(page) => {
-                    console.log(page);
-                    setCurrent(page)
-                    setPage(page > 1 ? (page-1) * 5 : page)
-                } } total={banner?.data.count} current={current} pageSize={5} />
+        <Pagination onChange={(page) => {
+          console.log(page);
+          setCurrent(page)
+          setPage(page > 1 ? (page - 1) * 5 : page)
+        }} total={banner?.data.count} current={current} pageSize={5} />
         <Table pagination={false} columns={columns} dataSource={data} />
       </div>
     </div>

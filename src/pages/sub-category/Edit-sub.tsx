@@ -19,15 +19,17 @@ const EditSub = () => {
   const { mutate: etidAttMutate } = useEditAttribute()
   const { mutate: createAttMutate } = useCreateAttribute()
   const navigate = useNavigate()
- 
-  const handleChange = (key: any) => {
+
+  const handleChange = (key: string) => {
     setTab(key);
   };
 
   const submit = (values: FieldType) => {
     const formData = new FormData()
     formData.append('title', values.title)
-    formData.append('image', values.image.file)
+    if(values.image && values.image.file) {
+      formData.append('image', values.image.file)
+    }
     mutate(formData, {
       onSuccess: () => {
         setTab('2')
@@ -38,6 +40,8 @@ const EditSub = () => {
   }
 
   const editAttribute = (values: any) => {
+    console.log(values);
+    
     const updateValue: any = []
     const newValue: any = []
     values.items.map((item: any) => {
@@ -74,7 +78,7 @@ const EditSub = () => {
         navigate('/sub-category')
       }
     })
-    createAttMutate(newValue, )
+    createAttMutate(newValue,)
   }
 
 

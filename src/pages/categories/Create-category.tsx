@@ -14,16 +14,16 @@ const CreateCategory: React.FC = () => {
     const submit = (values: FieldType) => {
         console.log(values)
         const fomrData = new FormData();
-        fomrData.append('title',values.title);
-        fomrData.append('image',values.image.file)
+        fomrData.append('title', values.title);
+        fomrData.append('image', values.image.file)
         mutate(fomrData, {
             onSuccess: () => {
                 message.success('success')
                 navigate('/')
             },
             onError: err => console.log(err)
-            
-            
+
+
         })
     };
 
@@ -32,7 +32,7 @@ const CreateCategory: React.FC = () => {
 
     return (
         <div>
-          <CategoryForm loading={false} onFinish={submit} />
+            <CategoryForm loading={false} onFinish={submit} />
         </div>
     )
 }

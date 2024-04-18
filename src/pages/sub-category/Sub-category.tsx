@@ -6,6 +6,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteSub } from "./service/mutation/useDeleteSub";
 import SearchForm from "../../components/SearchForm";
 import { client } from "../../config/query-client";
+import { getSubCategory } from "../../config/types";
 
 const SubCategory = () => {
   const [page, setPage] = useState(1)
@@ -14,7 +15,7 @@ const SubCategory = () => {
   const { data: getAll } = useGetSub()
   const { mutate } = useDeleteSub()
   const [search, setSearch] = useState('')
-  
+
   console.log(subCategory);
 
   const navigate = useNavigate()
@@ -57,24 +58,25 @@ const SubCategory = () => {
     },
   ];
 
-  const filteredData = getAll?.data?.results?.filter((item:any) =>
+  const filteredData = getAll?.data?.results?.filter((item: getSubCategory) =>
     item.title.toLowerCase().includes(search.toLowerCase())
-);
+  );
 
-const handleDelete = (id: string) => {
-  mutate(id, {
+  const handleDelete = (id: string) => {
+    mutate(id, {
       onSuccess: () => {
-          client.invalidateQueries({ queryKey: ['sub-category'] })
-          message.success('success')
+        client.invalidateQueries({ queryKey: ['sub-category'] })
+        message.success('success')
       }
-  })
-}
+    })
+  }
 
 
-  const data: DataType[] = subCategory?.data?.results?.map((item: any) => (
+  const data: DataType[] = subCategory?.data?.results?.map((item: getSubCategory) => (
     {
+      "key": item.id,
       id: item.id,
-      image: <div style={{ width: '70px', height: '60px',  }} >
+      image: <div style={{ width: '70px', height: '60px', }} >
         <Image src={item.image} alt="" />
       </div>,
       title: <p style={{ fontSize: '20px', fontWeight: '500' }}>{item.title}</p>,
@@ -89,16 +91,16 @@ const handleDelete = (id: string) => {
 
   return (
     <div >
-      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
-      <Button onClick={() => navigate('/create-sub')} type='primary'>Create Sub Category</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} title={'sub'} />
-            </div>
+      <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
+        <Button onClick={() => navigate('/create-sub')} type='primary'>Create Sub Category</Button>
+        <SearchForm searchValue={setSearch} data={filteredData} title={'sub'} />
+      </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
-      <Pagination onChange={(page) => {
-                    console.log(page);
-                    setCurrent(page)
-                    setPage(page > 1 ? (page - 1) * 5 : page)
-                } } total={subCategory?.data.count} current={current} pageSize={5} />
+        <Pagination onChange={(page) => {
+          console.log(page);
+          setCurrent(page)
+          setPage(page > 1 ? (page - 1) * 5 : page)
+        }} total={subCategory?.data.count} current={current} pageSize={5} />
         <Table pagination={false} columns={columns} dataSource={data} />
       </div>
     </div>

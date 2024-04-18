@@ -16,7 +16,7 @@ const CreateSub: FC = () => {
   const { mutate: attributeMutate } = useCreateAttribute()
   const navigate = useNavigate()
 
-  const handleChange = (key:any) => {
+  const handleChange = (key: any) => {
     setTab(key);
   };
 
@@ -37,12 +37,12 @@ const CreateSub: FC = () => {
   }
 
   console.log(tab);
-  
 
-  const createAttribute = (values:any) => {
+
+  const createAttribute = (values: any) => {
     console.log(values);
-    const newValues:any = []
-    
+    const newValues: any = []
+
     values?.items.map((item: any) => {
       console.log(item);
       const correctValue: any = []
@@ -51,10 +51,10 @@ const CreateSub: FC = () => {
         correctValue.push(item.value)
       })
 
-      newValues.push({...item, values: correctValue, category: [subId]})
-      
+      newValues.push({ ...item, values: correctValue, category: [subId] })
+
     })
-    
+
     console.log(newValues)
     attributeMutate(newValues, {
       onSuccess: (res) => {
@@ -72,10 +72,10 @@ const CreateSub: FC = () => {
       <Tabs activeKey={tab} onChange={handleChange} >
         <TabPane tab="Sub-category" key="1">
           <SubForm onFinish={submit} />
-        </TabPane>  
+        </TabPane>
         <TabPane disabled={disable} tab="Attribute" key="2">
           <AttributeForm onfinish={createAttribute} />
-        </TabPane> 
+        </TabPane>
       </Tabs>;
     </div>
   )

@@ -14,14 +14,14 @@ const EditCategory: React.FC = () => {
   const { mutate } = useEditCategory(id as string)
   const navigate = useNavigate()
 
-  // console.log(data);
-
 
   const submit = (values: FieldType) => {
     console.log(values);
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('image', values.image.file)
+    if(values.image && values.image.file) {
+      formData.append('image', values.image.file)
+    }
     mutate(formData, {
       onSuccess: (res) => {
         console.log(res);

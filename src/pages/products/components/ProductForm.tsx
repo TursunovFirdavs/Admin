@@ -26,7 +26,7 @@ export interface FieldType {
 
 const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
     console.log(initialValues);
-    
+
     const { data: categories } = useGetSub()
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -78,20 +78,20 @@ const ProductForm: FC<Props> = ({ onFinish, initialValues }) => {
                     <Input />
                 </Form.Item>
 
-                <div style={{display: 'flex', gap: '10px'}}>
-                <Form.Item
-                label='Is available'
-                name='is_available'
-                >
-                    <Switch defaultValue={initialValues ? initialValues.is_available : false} defaultChecked={initialValues ? initialValues.is_available : false} onChange={onChange} />
-                </Form.Item>
-                
-                <Form.Item
-                label='Is new'
-                name='is_new'
-                >
-                    <Switch defaultValue={initialValues ? initialValues.is_new : false} defaultChecked={false} onChange={onChange} />
-                </Form.Item>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <Form.Item
+                        label='Is available'
+                        name='is_available'
+                    >
+                        <Switch defaultValue={initialValues ? initialValues.is_available : false} defaultChecked={initialValues ? initialValues.is_available : false} onChange={onChange} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Is new'
+                        name='is_new'
+                    >
+                        <Switch defaultValue={initialValues ? initialValues.is_new : false} defaultChecked={false} onChange={onChange} />
+                    </Form.Item>
                 </div>
 
                 <Form.Item

@@ -13,16 +13,16 @@ const CreateBrand: React.FC = () => {
 
     const submit = (values: FieldType) => {
         const fomrData = new FormData();
-        fomrData.append('title',values.title);
-        fomrData.append('image',values.image.file)
+        fomrData.append('title', values.title);
+        fomrData.append('image', values.image.file)
         mutate(fomrData, {
             onSuccess: () => {
                 message.success('success')
                 navigate('/brands')
             },
             onError: err => console.log(err)
-            
-            
+
+
         })
     };
 
@@ -31,7 +31,7 @@ const CreateBrand: React.FC = () => {
 
     return (
         <div>
-          <BrandForm loading={false} onFinish={submit} />
+            <BrandForm loading={false} onFinish={submit} />
         </div>
     )
 }

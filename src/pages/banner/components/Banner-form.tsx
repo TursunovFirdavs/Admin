@@ -3,29 +3,24 @@ import { Button, Form, Image, Input, Upload, UploadFile, UploadProps } from "ant
 import { FC, useState } from "react"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { getBanner } from "../../../config/types";
 
 interface Props {
-    onFinish: (values: FieldType) => void
+    onFinish: (values: getBanner) => void
     initialValues?: {
         title: string,
         image: string
     }
 }
 
-export interface FieldType {
-    title: string;
-    image: {
-        file: File;
-    }
-}
 
 const BannerForm
     : FC<Props> = ({ onFinish, initialValues }) => {
         console.log(initialValues);
         const [description, setDescription] = useState('');
         console.log(description);
-        
-        
+
+
 
         const [fileList, setFileList] = useState<UploadFile[]>([]);
 

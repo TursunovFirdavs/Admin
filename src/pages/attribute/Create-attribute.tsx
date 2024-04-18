@@ -13,7 +13,7 @@ const CreateAttribute: React.FC = () => {
   const { mutate } = useCreateAttribute()
   const { data } = useGetSub()
   const navigate = useNavigate()
-  
+
 
   const submit = (values: any) => {
     const correctValue: string[] = []
@@ -21,24 +21,24 @@ const CreateAttribute: React.FC = () => {
       correctValue.push(item.value)
     })
     console.log(correctValue);
-    
-    console.log({...values, values:correctValue, category: selectedCat})
-    mutate({...values, values:correctValue, category: selectedCat}, {
+
+    console.log({ ...values, values: correctValue, category: selectedCat })
+    mutate({ ...values, values: correctValue, category: selectedCat }, {
       onSuccess: (res) => {
         console.log(res)
         navigate('/attribute')
         message.success('success')
       },
       onError: err => console.log(err)
-      
+
     })
   };
 
-  const options: SelectProps['options'] = data?.results?.map((cat: any) => {
-      return {
-        label: cat.title,
-        value: cat.id,
-      }
+  const options: SelectProps['options'] = data?.data?.results?.map((cat: any) => {
+    return {
+      label: cat.title,
+      value: cat.id,
+    }
   })
 
   const handleChange = (value: string[]) => {
@@ -48,7 +48,7 @@ const CreateAttribute: React.FC = () => {
 
 
   return (
-    <div style={{width: '600px', display: 'flex', flexDirection: 'column', gap: '20px'}}>
+    <div style={{ width: '600px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <Select
         mode="multiple"
         style={{ width: '100%' }}

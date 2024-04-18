@@ -10,7 +10,7 @@ const Attributes = () => {
   const { data: attributes } = useGetAttributes()
   const { mutate } = useDeleteAttribut()
   const [search, setSearch] = useState('')
-  
+
   console.log(attributes);
 
   const navigate = useNavigate()
@@ -48,9 +48,9 @@ const Attributes = () => {
     },
   ];
 
-  const filteredData = attributes?.results?.filter((item:any) =>
+  const filteredData = attributes?.results?.filter((item: any) =>
     item.title.toLowerCase().includes(search.toLowerCase())
-);
+  );
 
 
   const data: DataType[] = attributes?.results?.map((item: any) => (
@@ -68,10 +68,10 @@ const Attributes = () => {
 
   return (
     <div >
-      <div style={{display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between'}}>
-                <Button onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
-                <SearchForm searchValue={setSearch} data={filteredData} title={'attribute'} />
-            </div>
+      <div style={{ display: 'flex', alignItems: 'start', marginBottom: '40px', justifyContent: 'space-between' }}>
+        <Button onClick={() => navigate('/create-attribute')} type='primary'>Create Attribute</Button>
+        <SearchForm searchValue={setSearch} data={filteredData} title={'attribute'} />
+      </div>
       <div style={{ height: '80vh', overflow: 'auto' }}>
         <Table columns={columns} dataSource={data} />
       </div>
