@@ -7,7 +7,6 @@ import { Spin, Tabs, message } from "antd"
 import TabPane from "antd/es/tabs/TabPane"
 import AttributeForm from "../attribute/components/Attribute-form"
 import { useState } from "react"
-import { useGetSingleAttribute } from "../attribute/service/query/useGetSingleAtt"
 import { useEditAttribute } from "./service/mutation/useEditAttribute"
 import { useCreateAttribute } from "../attribute/service/mutation/useCreateAttribute"
 

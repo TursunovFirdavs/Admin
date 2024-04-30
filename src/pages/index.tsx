@@ -15,6 +15,7 @@ import EditProduct from "./products/Edit-product"
 import Banner from "./banner/Banner"
 import EditBanner from "./banner/Edit-banner"
 import CreateBanner from "./banner/Create-banner"
+import Variant from "./variant/Variant"
 
 
 const index = () => {
@@ -36,6 +37,7 @@ const index = () => {
         <Route path="/banner" element={<Banner/>} />
         <Route path="/create-banner" element={<CreateBanner/>} />
         <Route path="/edit-banner/:id" element={<EditBanner/>} />
+        <Route path="/variant" element={<Variant/>} />
     </Routes>
   )
 }

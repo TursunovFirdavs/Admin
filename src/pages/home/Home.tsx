@@ -26,6 +26,7 @@ const items: MenuItem[] = [
   getItem(<Link to={'/brands'}>Brand list</Link>, '3'),
   getItem(<Link to={'/banner'}>Banner</Link>, '4'),
   getItem(<Link to={'/products'}>Products</Link>, '5'),
+  getItem(<Link to={'/variant'}>Variant</Link>, '6'),
 ];
 
 const Home: React.FC = () => {
